@@ -8,6 +8,7 @@
         <h1>Správce úkolů</h1>
         <?php
         // put your code here
+        echo "zakladní soubor projektu";
         ?>
     </body>
 </html>
