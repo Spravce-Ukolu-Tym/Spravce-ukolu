@@ -1,0 +1,16 @@
+Naklonovani vzdaleneho repozitare
+$ git clone [URL]
+
+Nahrani noveho souboru/aktualizace souboru do vzdaleneho repozitare
+git status
+git add -A
+git commit
+git push
+
+Smazani souboru ze vzdaleneho repozitare
+git rm -cached jmeno_souboru.doc
+git commit
+git push
+
+Aktualizace vlasniho repozitare dle vzdaleneho
+git pull
