@@ -15,7 +15,6 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0" yfiles.foldertype="group">
-      <data key="d5"/>
       <data key="d6">
         <y:TableNode configuration="YED_TABLE_NODE">
           <y:Geometry height="183.94291084289569" width="3166.1371803283682" x="2016.3226725260413" y="14.7060546875"/>
@@ -209,7 +208,7 @@
               <y:Geometry height="30.0" width="269.069921875" x="2354.442203776041" y="115.9018823242188"/>
               <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="44.669921875" x="112.19999999999999" y="5.6494140625">FURPS</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="44.669921875" x="112.19999999999982" y="5.6494140625">FURPS</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -220,7 +219,7 @@
               <y:Geometry height="30.0" width="81.22539062499999" x="2388.9121256510407" y="155.10188232421888"/>
               <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="68.025390625" x="6.599999999999994" y="5.649414062500028">výkaz práce</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="68.025390625" x="6.599999999999909" y="5.6494140625">výkaz práce</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -295,7 +294,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="196.115234375" x="3123.8828125000005" y="154.6229760742187"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="186.115234375" x="5.0" y="5.6494140625">základní návrh grafického designu</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -363,7 +362,7 @@
               <y:Geometry height="30.0" width="244.73828124999955" x="3519.388671874999" y="154.6229760742187"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="202.1171875" x="21.310546874999545" y="5.6494140625">vytvoření hlavního navigačního prvku</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="202.1171875" x="21.310546875" y="5.6494140625">vytvoření hlavního navigačního prvku</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -396,7 +395,7 @@
               <y:Geometry height="30.0" width="252.7207031249991" x="4276.511230468751" y="115.9018823242188"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="88.720703125" x="82.0" y="5.6494140625">editace projektu</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="88.720703125" x="81.99999999999909" y="5.6494140625">editace projektu</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
