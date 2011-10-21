@@ -19,10 +19,10 @@
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="194.0" width="156.0" x="927.5" y="55.0"/>
+          <y:Geometry height="209.0" width="213.6" x="634.0527415143603" y="-337.29225413402946"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="38.0234375" x="58.98828125" y="3.0">Task</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="38.0234375" x="87.78828125" y="3.0">Task</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel>CreationDate : Date
 Description : String
@@ -33,7 +33,8 @@ IsSubtask : Boolean
 Subtasks[] : Task
 Percentage: Integer
 NecessaryAbilities[] : Ability</y:AttributeLabel>
-            <y:MethodLabel>reject(Reason: String)
+            <y:MethodLabel>accept()
+reject(Reason: String)
 return()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
@@ -44,7 +45,7 @@ return()</y:MethodLabel>
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="262.0" width="221.0" x="386.5" y="12.0"/>
+          <y:Geometry height="262.0" width="221.0" x="386.5" y="-41.0"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="37.52197265625" x="91.739013671875" y="3.0">User</y:NodeLabel>
@@ -54,7 +55,8 @@ LoginName : String
 PermissionAdmin : Boolean
 PermissionLeader : Boolean
 PermissionPersonalist : Boolean
-AbilityList[] : Ability</y:AttributeLabel>
+AbilityList[] : Ability
+Roles[]: PrivilegedRole</y:AttributeLabel>
             <y:MethodLabel>getTaskManager()
 requestChange()</y:MethodLabel>
           </y:UML>
@@ -69,7 +71,7 @@ requestChange()</y:MethodLabel>
           <y:Geometry height="162.0" width="221.0" x="386.5" y="552.4"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="84.1455078125" x="68.42724609375" y="3.0">UserAdmin</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="82.837890625" x="69.0810546875" y="3.0">RoleAdmin</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
             <y:MethodLabel>getUserManagerAdmin()
@@ -87,7 +89,7 @@ getProjectManager()</y:MethodLabel>
           <y:Geometry height="162.0" width="179.0" x="637.5" y="552.4"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="87.9287109375" x="45.53564453125" y="3.0">UserLeader</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="86.62109375" x="46.189453125" y="3.0">RoleLeader</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
             <y:MethodLabel>getTaskManagerLeader()
@@ -104,7 +106,7 @@ getUserManager()</y:MethodLabel>
           <y:Geometry height="161.5" width="184.0" x="172.5" y="552.4"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="119.83837890625" x="32.080810546875" y="3.0">UserPersonalist</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="118.53076171875" x="32.734619140625" y="3.0">RolePersonalist</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
             <y:MethodLabel>getUserManagerAdmin()</y:MethodLabel>
@@ -123,7 +125,7 @@ getUserManager()</y:MethodLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="102.29345703125" x="56.853271484375" y="3.0">TaskManager</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
-            <y:MethodLabel>getAssignedTasks()
+            <y:MethodLabel>getAssignedTasks() : Task[]
 updateTask()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
@@ -143,7 +145,8 @@ updateTask()</y:MethodLabel>
 getTasksByProject()
 createTask()
 assignTaskAutomatically()
-assignTaskManually()</y:AttributeLabel>
+assignTaskManually()
+approveTask()</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -154,7 +157,7 @@ assignTaskManually()</y:AttributeLabel>
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="95.0" width="100.0" x="692.5" y="95.5"/>
+          <y:Geometry height="95.0" width="100.0" x="690.8527415143602" y="42.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="51.42333984375" x="24.288330078125" y="3.0">Ability</y:NodeLabel>
@@ -174,11 +177,10 @@ Description</y:AttributeLabel>
           <y:Geometry height="178.39999999999998" width="221.0" x="386.5" y="324.0"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="111.54833984375" x="54.725830078125" y="3.0">UserPrivileged</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="110.24072265625" x="55.379638671875" y="3.0">PrivilegedRole</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
-            <y:MethodLabel>getRequestManager()
-getStats()</y:MethodLabel>
+            <y:MethodLabel>getStats()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -205,7 +207,7 @@ listAbilities()</y:MethodLabel>
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="209.0" width="135.0" x="1053.5" y="285.0"/>
+          <y:Geometry height="211.89999999999998" width="135.0" x="722.0" y="290.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="120.33349609375" x="7.333251953125" y="3.0">ProjectManager</y:NodeLabel>
@@ -217,77 +219,6 @@ listAbilities()</y:MethodLabel>
       </data>
     </node>
     <node id="n11">
-      <data key="d4"/>
-      <data key="d5"><![CDATA[UMLClass]]></data>
-      <data key="d6">
-        <y:UMLClassNode>
-          <y:Geometry height="209.0" width="135.0" x="1218.5" y="285.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="128.4267578125" x="3.28662109375" y="3.0">RequestManager</y:NodeLabel>
-          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel/>
-            <y:MethodLabel>getMyRequests()</y:MethodLabel>
-          </y:UML>
-        </y:UMLClassNode>
-      </data>
-    </node>
-    <node id="n12">
-      <data key="d4"/>
-      <data key="d5"><![CDATA[UMLClass]]></data>
-      <data key="d6">
-        <y:UMLClassNode>
-          <y:Geometry height="116.0" width="173.0" x="1199.5" y="524.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="64.15673828125" x="54.421630859375" y="3.0">Request</y:NodeLabel>
-          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel>RequestingUser : User
-Type : RequestType
-Text : String
-</y:AttributeLabel>
-            <y:MethodLabel>Approve()</y:MethodLabel>
-          </y:UML>
-        </y:UMLClassNode>
-      </data>
-    </node>
-    <node id="n13">
-      <data key="d4"/>
-      <data key="d5"><![CDATA[UMLClass]]></data>
-      <data key="d6">
-        <y:UMLClassNode>
-          <y:Geometry height="116.0" width="179.0" x="-265.0" y="263.66666666666674"/>
-          <y:Fill color="#00FFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="99.62109375" x="39.689453125" y="25.96875">RequestType</y:NodeLabel>
-          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="Enumeration" use3DEffect="true">
-            <y:AttributeLabel>TaskRequest
-PersonalRequest</y:AttributeLabel>
-            <y:MethodLabel/>
-          </y:UML>
-        </y:UMLClassNode>
-      </data>
-    </node>
-    <node id="n14">
-      <data key="d4"/>
-      <data key="d5"><![CDATA[UMLClass]]></data>
-      <data key="d6">
-        <y:UMLClassNode>
-          <y:Geometry height="161.5" width="169.2791666666669" x="1201.3604166666664" y="670.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="98.18017578125" x="35.54949544270845" y="3.0">TaskRequest</y:NodeLabel>
-          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel>Task : Task
-RejectTask : Boolean
-ApproveTask : Boolean</y:AttributeLabel>
-            <y:MethodLabel>ApproveTask()
-UnassignTask()</y:MethodLabel>
-          </y:UML>
-        </y:UMLClassNode>
-      </data>
-    </node>
-    <node id="n15">
       <data key="d4"/>
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
@@ -307,12 +238,12 @@ removeAbility()</y:MethodLabel>
         </y:UMLClassNode>
       </data>
     </node>
-    <node id="n16">
+    <node id="n12">
       <data key="d4"/>
       <data key="d5"><![CDATA[UMLClass]]></data>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="148.55603079555175" width="179.0" x="-265.0" y="85.110635871115"/>
+          <y:Geometry height="148.55603079555175" width="179.0" x="407.5" y="-307.0702695318053"/>
           <y:Fill color="#00FFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="85.580078125" x="46.7099609375" y="25.96875">TaskStatus</y:NodeLabel>
@@ -341,20 +272,7 @@ Completed</y:AttributeLabel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e1" source="n8" target="n1">
-      <data key="d8"/>
-      <data key="d9"><![CDATA[UMLinherits]]></data>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="white_delta"/>
-          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0" y="-26.97991943359375"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e2" source="n2" target="n8">
+    <edge id="e1" source="n2" target="n8">
       <data key="d8"/>
       <data key="d9"><![CDATA[UMLinherits]]></data>
       <data key="d10">
@@ -367,7 +285,7 @@ Completed</y:AttributeLabel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e3" source="n3" target="n8">
+    <edge id="e2" source="n3" target="n8">
       <data key="d8"/>
       <data key="d9"><![CDATA[UMLinherits]]></data>
       <data key="d10">
@@ -380,7 +298,7 @@ Completed</y:AttributeLabel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e4" source="n4" target="n8">
+    <edge id="e3" source="n4" target="n8">
       <data key="d8"/>
       <data key="d9"><![CDATA[UMLinherits]]></data>
       <data key="d10">
@@ -393,20 +311,7 @@ Completed</y:AttributeLabel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e5" source="n14" target="n12">
-      <data key="d8"/>
-      <data key="d9"><![CDATA[UMLinherits]]></data>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="white_delta"/>
-          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0" y="-16.95928955078125"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e6" source="n15" target="n9">
+    <edge id="e4" source="n11" target="n9">
       <data key="d8"/>
       <data key="d9"><![CDATA[UMLinherits]]></data>
       <data key="d10">
@@ -415,6 +320,72 @@ Completed</y:AttributeLabel>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0" y="-22.76287841796875"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e5" source="n8" target="n1">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLrelatesTo]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="none"/>
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="six_pos" modelPosition="stail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="26.8984375" x="2.0" y="-28.090240478515625">0..3</y:EdgeLabel>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e6" source="n1" target="n7">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLrelatesTo]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="none"/>
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="six_pos" modelPosition="ttail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="10.0" x="63.20222881904772" y="2.0">*</y:EdgeLabel>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e7" source="n0" target="n7">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLrelatesTo]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="none"/>
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="six_pos" modelPosition="ttail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="10.0" x="2.0000193463914684" y="142.66140747070312">*</y:EdgeLabel>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e8" source="n12" target="n0">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLrelatesTo]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="none"/>
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="six_pos" modelPosition="stail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="11.634765625" x="10.1151123046875" y="1.999997452884628">1</y:EdgeLabel>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e9" source="n0" target="n0">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLrelatesTo]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="31.790427884546602" ty="-102.97823766924915">
+            <y:Point x="877.9664027165462" y="-348.6425273580732"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
