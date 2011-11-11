@@ -1,0 +1,4 @@
+echo "Compiling client..."
+javac -g -encoding utf-8 -d ./ `find ./nextQuest/src/nextQuest/client/ -type f -print0`
+echo "Running..."
+java nextQuest/client/nextQuestClient

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+trap cint INT
+
+function cint(){
+  echo "!! Caught ^C, exiting..."
+
+  if [ -n "$rpid" ]; then
+    echo "!! Exiting rmiregistry (pid $rpid)"
+    kill -9 $rpid
+  fi
+
+  if [ -n "$jpid" ]; then
+    echo "!! Exiting java/server (pid $jpid)"
+    kill -9 $jpid
+  fi
+
+  exit
+}
+
+echo "Compiling..."
+cd nextQuest/src/
+javac -g -encoding utf-8 -d ./../../ `find ./nextQuest/server/ -type f -printf "%p "` 
+
+if [ "$?" != "0" ]; then
+  echo "Compile error, exiting..."
+  exit
+fi
+
+
+echo "Running rmiregistry..."
+cd ../../
+rmiregistry &
+rpid=$!
+java -Djava.security.policy=security.policy nextQuest.server.nextQuestServer &
+jpid=$!
+
+
+while :; do 
+  sleep 10
+done

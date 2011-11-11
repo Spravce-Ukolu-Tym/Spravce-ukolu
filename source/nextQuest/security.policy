@@ -1,0 +1,4 @@
+grant {
+ // Allow the client to connect to any port above 1024
+ permission java.net.SocketPermission "*:1099", "connect,resolve,accept";
+ };
