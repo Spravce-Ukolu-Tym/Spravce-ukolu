@@ -5,6 +5,7 @@
 package nextQuest.ifc;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.rmi.Remote;
 public interface iAbility extends Remote
 {
 
-    String getDescription();
+    String getDescription() throws RemoteException, nqException;
 
     String getName();
     

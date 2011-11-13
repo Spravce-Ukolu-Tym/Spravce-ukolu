@@ -4,10 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
-import nextQuest.server.ProjectManager;
-import nextQuest.server.TaskManagerLeader;
-import nextQuest.server.UserManagerAdmin;
+import java.rmi.*;
 
 /**
  *
@@ -16,10 +13,10 @@ import nextQuest.server.UserManagerAdmin;
 public interface iRoleAdmin extends Remote
 {
 
-    ProjectManager getProjectManager();
+    iProjectManager getProjectManager() throws RemoteException, nqException;
 
-    TaskManagerLeader getTaskManagerLeader();
+    iTaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException;
 
-    UserManagerAdmin getUserManagerAdmin();
+    iUserManagerAdmin getUserManagerAdmin() throws RemoteException, nqException;
     
 }

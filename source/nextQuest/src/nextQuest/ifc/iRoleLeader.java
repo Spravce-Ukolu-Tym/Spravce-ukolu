@@ -4,9 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
-import nextQuest.server.TaskManagerLeader;
-import nextQuest.server.UserManager;
+import java.rmi.*;
 
 /**
  *
@@ -15,8 +13,8 @@ import nextQuest.server.UserManager;
 public interface iRoleLeader extends Remote
 {
 
-    TaskManagerLeader getTaskManagerLeader();
+    iTaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException;
 
-    UserManager getUserManager();
+    iUserManager getUserManager() throws RemoteException, nqException;
     
 }

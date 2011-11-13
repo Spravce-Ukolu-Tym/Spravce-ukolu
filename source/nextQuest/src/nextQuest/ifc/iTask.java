@@ -1,44 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
+import java.rmi.*;
 import java.util.Date;
-import nextQuest.server.Ability;
-import nextQuest.server.Task;
-import nextQuest.server.User;
 
-/**
- *
- * @author suk
- */
 public interface iTask extends Remote
 {
 
-    void accept();
+    void accept()  throws RemoteException, nqException;
 
-    User getAssignedTo();
+    iUser getAssignedTo()  throws RemoteException, nqException;
 
-    Date getCreaitonDate();
+    Date getCreaitonDate()  throws RemoteException, nqException;
 
-    User getCreator();
+    iUser getCreator()  throws RemoteException, nqException;
 
-    String getDescription();
+    String getDescription()  throws RemoteException, nqException;
+    
+    Boolean getIsSubtask()  throws RemoteException, nqException;
 
-    Boolean getIsSubtask();
+    Integer getMaxHours()   throws RemoteException, nqException;
 
-    Integer getMaxHours();
+    iAbility[] getNecessaryAbilities() throws RemoteException, nqException;
 
-    Ability[] getNecessaryAbilities();
+    Integer getPercentage() throws RemoteException, nqException;
 
-    Integer getPercentage();
+    iTask[] getSubtasks()  throws RemoteException, nqException;
 
-    Task[] getSubtasks();
+    void reject(String Reason) throws RemoteException, nqException;
 
-    void reject(String Reason);
-
-    void returnTask();
+    void returnTask() throws RemoteException, nqException;
     
 }

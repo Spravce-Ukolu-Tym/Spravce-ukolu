@@ -4,7 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
+import java.rmi.*;
 
 /**
  *
@@ -13,6 +13,6 @@ import java.rmi.Remote;
 public interface iProjectManager extends Remote
 {
 
-    void createProject();
+    void createProject() throws RemoteException, nqException;
     
 }

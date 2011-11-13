@@ -4,13 +4,17 @@ trap cint INT
 
 function cint(){
   echo "!! Caught ^C, exiting..."
-
-  if [ -n "$rpid" ]; then
+  kill_all
+}
+      
+function kill_all(){
+  echo "!! kill_all()"
+  if [ -n "$rpid" ] && kill -0 $rpid 2> /dev/null ; then
     echo "!! Exiting rmiregistry (pid $rpid)"
     kill -9 $rpid
   fi
 
-  if [ -n "$jpid" ]; then
+  if [ -n "$jpid" ] && kill -0 $jpid 2> /dev/null ; then
     echo "!! Exiting java/server (pid $jpid)"
     kill -9 $jpid
   fi
@@ -18,24 +22,40 @@ function cint(){
   exit
 }
 
-echo "Compiling..."
+echo "!! Compiling..."
 cd nextQuest/src/
 javac -g -encoding utf-8 -d ./../../ `find ./nextQuest/server/ -type f -printf "%p "` 
 
 if [ "$?" != "0" ]; then
-  echo "Compile error, exiting..."
+  echo "!! Compile error, exiting..."
   exit
 fi
 
 
-echo "Running rmiregistry..."
+echo "!! Running rmiregistry..."
 cd ../../
 rmiregistry &
 rpid=$!
-java -Djava.security.policy=security.policy nextQuest.server.nextQuestServer &
+
+java -classpath "./:./lib/com.mysql.jdbc.Driver.jar" -Djava.security.policy=security.policy nextQuest.server.nextQuestServer mysql=nextquest.vserver.cz dbuser=user dbpass=pass.mysql@nextquest &
+# java -Djava.security.policy=security.policy nextQuest.server.nextQuestServer mysql=nextquest.vserver.cz &
+
+
 jpid=$!
 
 
 while :; do 
-  sleep 10
+  if ! kill -0 $rpid 2> /dev/null ; then
+    echo "rmiregistry do not run! Exiting..."
+    kill_all
+  fi
+  
+  if ! kill -0 $jpid 2> /dev/null ; then
+    echo "java/server do not run! Exiting..."
+    kill_all
+  fi
+  
+  sleep 1
 done
+
+echo "wat?

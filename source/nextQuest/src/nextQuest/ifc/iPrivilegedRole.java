@@ -5,6 +5,7 @@
 package nextQuest.ifc;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -13,6 +14,6 @@ import java.rmi.Remote;
 public interface iPrivilegedRole extends Remote
 {
 
-    void getStats();
+    void getStats()  throws RemoteException, nqException;
     
 }

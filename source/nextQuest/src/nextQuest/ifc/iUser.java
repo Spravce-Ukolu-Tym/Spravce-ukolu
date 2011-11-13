@@ -4,11 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
-import nextQuest.server.Ability;
-import nextQuest.server.PrivilegedRole;
-import nextQuest.server.TaskManager;
-
+import java.rmi.*;
 /**
  *
  * @author suk
@@ -16,22 +12,22 @@ import nextQuest.server.TaskManager;
 public interface iUser extends Remote
 {
 
-    Ability[] getAbilityList();
+    iAbility[] getAbilityList() throws RemoteException, nqException;
 
-    String getLoginName();
+    String getLoginName() throws RemoteException, nqException;
 
-    String getName();
+    String getName() throws RemoteException, nqException;
 
-    Boolean getPermissionAdmin();
+    Boolean getPermissionAdmin() throws RemoteException, nqException;
 
-    Boolean getPermissionLeader();
+    Boolean getPermissionLeader() throws RemoteException, nqException;
 
-    Boolean getPermissionPersonalist();
+    Boolean getPermissionPersonalist() throws RemoteException, nqException;
 
-    PrivilegedRole[] getRoles();
+    iPrivilegedRole[] getRoles() throws RemoteException, nqException;
 
-    TaskManager getTaskManager();
+    iTaskManager getTaskManager() throws RemoteException, nqException;
 
-    void requestChange();
+    void requestChange() throws RemoteException, nqException;
     
 }

@@ -1,26 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
+import java.rmi.*;
 
-/**
- *
- * @author suk
- */
 public interface iUserManagerAdmin extends Remote
 {
 
-    void createAbility();
+    void createAbility() throws RemoteException, nqException;
 
-    void createUser();
+    void createUser() throws RemoteException, nqException;
 
-    void editUser();
+    void editUser() throws RemoteException, nqException;
 
-    void removeAbility();
+    void removeAbility() throws RemoteException, nqException;
 
-    void removeUser();
+    void removeUser() throws RemoteException, nqException;
     
 }

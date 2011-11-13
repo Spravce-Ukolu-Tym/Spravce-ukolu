@@ -4,8 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
-import nextQuest.server.UserManagerAdmin;
+import java.rmi.*;
 
 /**
  *
@@ -14,6 +13,6 @@ import nextQuest.server.UserManagerAdmin;
 public interface iRolePersonalist extends Remote
 {
 
-    UserManagerAdmin getUserManagerAdmin();
+    iUserManagerAdmin getUserManagerAdmin() throws RemoteException, nqException;
     
 }

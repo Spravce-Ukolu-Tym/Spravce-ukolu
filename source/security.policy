@@ -1,5 +1,3 @@
 grant {
- // Allow the client to connect to any port above 1024
-// permission java.net.SocketPermission "*:1099", "connect,resolve,accept";
-permission java.security.AllPermission;
+	permission java.net.SocketPermission "*:1024-", "connect,resolve,accept";
  };

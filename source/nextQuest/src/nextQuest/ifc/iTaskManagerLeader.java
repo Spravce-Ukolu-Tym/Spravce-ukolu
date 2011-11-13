@@ -4,8 +4,7 @@
  */
 package nextQuest.ifc;
 
-import java.rmi.Remote;
-import nextQuest.server.Task;
+import java.rmi.*;
 
 /**
  *
@@ -14,16 +13,16 @@ import nextQuest.server.Task;
 public interface iTaskManagerLeader extends Remote
 {
 
-    void approveTask();
+    void approveTask() throws RemoteException, nqException;
 
-    void assignTaskAutomatically();
+    void assignTaskAutomatically() throws RemoteException, nqException;
 
-    void assignTasksManually();
+    void assignTasksManually() throws RemoteException, nqException;
 
-    void createTask();
+    void createTask() throws RemoteException, nqException;
 
-    Task[] getTasksByProject();
+    iTask[] getTasksByProject() throws RemoteException, nqException;
 
-    Task[] getTasksByUser();
+    iTask[] getTasksByUser() throws RemoteException, nqException;
     
 }
