@@ -13,33 +13,33 @@ public class nextQuestClient
     {
 	//String server = "rmi://localhost/con";
 	String server = "rmi://nextquest.sytes.net/con";
-	
+
 	for(String arg : args)
 	{
 	    String[] pr = arg.split("=");
-	    
+
 	    if(pr.length != 2){
 		System.out.printf("ERROR: Bad argument format '%s'\n", arg);
 		continue;}
-	    
-	    
+
+
 	    if(pr[0].equals("server"))
 		server = pr[1];
 	    else
 		System.out.printf("ERROR: Unknown argument '%s'\n", pr[0]);
 	}
-	
-	
+
+
 	System.out.println("Client starting...");
-	
+
 	iConnector mg = (iConnector) Naming.lookup(server);
-	
+
 	System.out.println("Connected...");
 	System.out.print("Login:");
 	String name = new Scanner(System.in).nextLine();
 	System.out.print("Password:");
 	String pass = new Scanner(System.in).nextLine(); //new String(System.console().readPassword("Password:"));	 //fuck
-	
+
 	iUser usr;
 	try
 	{
@@ -50,6 +50,6 @@ public class nextQuestClient
 	{
 	    System.out.printf("Fail! Exception %s, message: %s", e.getType().toString(), e.getMessage());
 	}
-	
+
     }
 }
