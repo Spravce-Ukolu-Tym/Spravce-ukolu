@@ -28,6 +28,7 @@ public class nextQuestClient
 
 	    if (pr[0].equals("server"))
 	    {
+
 		server = pr[1];
 	    }
 	    else
@@ -47,7 +48,7 @@ public class nextQuestClient
 	System.out.print("Password:");
 	String pass = new Scanner(System.in).nextLine(); //new String(System.console().readPassword("Password:"));	 //fuck
 
-	iUser usr; 
+	iUser usr;
 	try
 	{
 	    usr = mg.Login(name, pass); //pokusit se prihlasit
@@ -61,6 +62,8 @@ public class nextQuestClient
 
 
 	iPrivilegedRole[] roles;
+
+
 	try
 	{
 	    roles = usr.getRoles(); //ziskat seznam roli
@@ -95,13 +98,12 @@ public class nextQuestClient
 	    }
 	}
 
-
 	if (radmin != null) ///pokud je admin
 	{
 	    try
 	    {
 		iUserManagerAdmin uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
-		
+
 		uma.createAbility(new Ability("Abilita", "Totalni popisek", 666)); //vytvorit novou schopnost (pri vytvareni nehraje level roli)
 	    }
 	    catch (nqException e)
@@ -109,7 +111,5 @@ public class nextQuestClient
 		System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
 	    }
 	}
-
-
     }
 }
