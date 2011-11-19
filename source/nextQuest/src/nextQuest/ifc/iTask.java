@@ -3,6 +3,8 @@ package nextQuest.ifc;
 import java.rmi.*;
 import java.util.Date;
 
+
+
 public interface iTask extends Remote
 {
 
@@ -20,7 +22,7 @@ public interface iTask extends Remote
 
     Integer getMaxHours()   throws RemoteException, nqException;
 
-    iAbility[] getNecessaryAbilities() throws RemoteException, nqException;
+    Ability[] getNecessaryAbilities() throws RemoteException, nqException;
 
     Integer getPercentage() throws RemoteException, nqException;
 

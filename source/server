@@ -38,7 +38,7 @@ rmiregistry &
 rpid=$!
 
 
-if [ $1 == "vmserver" ] ; then
+if [ "$1" == "vmserver" ] ; then
   echo "!! Running on public server"
   java -classpath "./:./lib/com.mysql.jdbc.Driver.jar" -Djava.rmi.server.hostname=nextquest.sytes.net -Djava.security.policy=security.policy nextQuest.server.nextQuestServer mysql=nextquest.vserver.cz dbuser=user dbpass=pass.mysql@nextquest &
   jpid=$!

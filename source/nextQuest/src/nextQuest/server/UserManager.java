@@ -1,13 +1,18 @@
 package nextQuest.server;
 
+import nextQuest.ifc.Ability;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
 import nextQuest.ifc.iUserManager;
 
 public class UserManager  extends UnicastRemoteObject  implements iUserManager {
-    public UserManager()  throws RemoteException
+    private Connection con;
+    private User user;
+    public UserManager(Connection con, User u)  throws RemoteException
     {
-	
+	this.con = con;
+	this.user = u;
     }
     
     

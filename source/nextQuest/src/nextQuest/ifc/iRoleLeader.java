@@ -10,7 +10,7 @@ import java.rmi.*;
  *
  * @author suk
  */
-public interface iRoleLeader extends Remote
+public interface iRoleLeader extends iPrivilegedRole
 {
 
     iTaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException;

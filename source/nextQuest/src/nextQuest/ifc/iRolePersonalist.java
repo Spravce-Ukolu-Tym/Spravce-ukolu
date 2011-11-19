@@ -10,9 +10,8 @@ import java.rmi.*;
  *
  * @author suk
  */
-public interface iRolePersonalist extends Remote
+public interface iRolePersonalist extends iPrivilegedRole
 {
-
     iUserManagerAdmin getUserManagerAdmin() throws RemoteException, nqException;
     
 }

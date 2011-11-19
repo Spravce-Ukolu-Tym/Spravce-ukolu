@@ -160,10 +160,9 @@ approveTask()</y:AttributeLabel>
           <y:Geometry height="95.0" width="100.0" x="690.8527415143602" y="42.5"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="51.42333984375" x="24.288330078125" y="3.0">Ability</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="77.2392578125" x="11.38037109375" y="3.0">GotAbility</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel>Name
-Description</y:AttributeLabel>
+            <y:AttributeLabel>Level</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -254,6 +253,23 @@ InProgress
 Rejected
 ApproveWaiting
 Completed</y:AttributeLabel>
+            <y:MethodLabel/>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+    </node>
+    <node id="n13">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[UMLClass]]></data>
+      <data key="d6">
+        <y:UMLClassNode>
+          <y:Geometry height="95.0" width="100.0" x="850.0453737391028" y="42.5"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="51.42333984375" x="24.288330078125" y="3.0">Ability</y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>Name
+Description</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -386,6 +402,19 @@ Completed</y:AttributeLabel>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e10" source="n13" target="n7">
+      <data key="d8"/>
+      <data key="d9"><![CDATA[UMLinherits]]></data>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="white_delta" target="none"/>
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="-31.576577138893526" y="2.0"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>

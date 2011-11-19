@@ -1,15 +1,26 @@
 package nextQuest.server;
 
-import nextQuest.ifc.iRoleLeader;
+import java.rmi.RemoteException;
+import java.sql.Connection;
+import nextQuest.ifc.*;
 
-public class RoleLeader implements iRoleLeader {
+public class RoleLeader extends PrivilegedRole implements iRoleLeader {
+    
+    public RoleLeader(Connection con, User u) throws RemoteException
+    {
+	super(con, u);
+    }
+    
+    
     @Override
-    public TaskManagerLeader getTaskManagerLeader() {
+    public TaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException
+    {
         return null;
     }
 
     @Override
-    public UserManager getUserManager() {
+    public UserManager getUserManager() throws RemoteException, nqException
+    {
         return null;
     }
 }

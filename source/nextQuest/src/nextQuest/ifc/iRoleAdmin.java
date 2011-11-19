@@ -10,7 +10,7 @@ import java.rmi.*;
  *
  * @author suk
  */
-public interface iRoleAdmin extends Remote
+public interface iRoleAdmin extends iPrivilegedRole
 {
 
     iProjectManager getProjectManager() throws RemoteException, nqException;

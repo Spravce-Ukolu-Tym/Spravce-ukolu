@@ -1,5 +1,6 @@
 package nextQuest.server;
 
+import nextQuest.ifc.Ability;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import nextQuest.ifc.iTask;

@@ -1,8 +1,11 @@
 package nextQuest.server;
 
+import nextQuest.ifc.Ability;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import nextQuest.ifc.*;
 
 public class User extends UnicastRemoteObject  implements iUser {
@@ -11,9 +14,9 @@ public class User extends UnicastRemoteObject  implements iUser {
     private Boolean PermissionAdmin;
     private Boolean PermissionLeader;
     private Boolean PermissionPersonalist;
-    private iAbility[] AbilityList;
-    private iPrivilegedRole[] Roles;
 
+    private iPrivilegedRole[] roles;
+    
     private int iduser;
     private Connection con;
     
@@ -24,8 +27,7 @@ public class User extends UnicastRemoteObject  implements iUser {
         this.PermissionAdmin = PermissionAdmin;
         this.PermissionLeader = PermissionLeader;
         this.PermissionPersonalist = PermissionPersonalist;
-        /*this.AbilityList = AbilityList;
-        this.Roles = Roles;*/
+        this.roles = null;
 	
 	this.con = con;
 	this.iduser = iduser;
@@ -40,32 +42,33 @@ public class User extends UnicastRemoteObject  implements iUser {
     public String getName() {
         return Name;
     }
-
-    @Override
-    public Boolean getPermissionAdmin() {
-        return PermissionAdmin;
-    }
-
-    @Override
-    public Boolean getPermissionLeader() {
-        return PermissionLeader;
-    }
-
-    @Override
-    public Boolean getPermissionPersonalist() {
-        return PermissionPersonalist;
-    }
-
-    
     
     @Override
-    public iAbility[] getAbilityList() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public Ability[] getAbilityList() {
+	return null;	
     }
 
     @Override
-    public iPrivilegedRole[] getRoles() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public iPrivilegedRole[] getRoles() throws RemoteException {
+        
+	if(this.roles == null)
+	{
+	    List<iPrivilegedRole> rls = new ArrayList<iPrivilegedRole>();
+	    if(this.PermissionAdmin)
+		rls.add(new RoleAdmin(this.con, this));
+	    
+	    if(this.PermissionLeader)
+		rls.add(new RoleLeader(this.con, this));
+	    
+	    if(this.PermissionPersonalist)
+		rls.add(new RolePersonalist(this.con, this));
+	    
+	    
+	    return (this.roles = rls.toArray(new iPrivilegedRole[rls.size()]));
+	}
+	else 
+	    return this.roles;
+	
     }
 
     @Override

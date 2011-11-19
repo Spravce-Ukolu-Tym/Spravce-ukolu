@@ -1,16 +1,19 @@
 package nextQuest.server;
 
 import java.rmi.RemoteException;
-import nextQuest.ifc.iRolePersonalist;
+import java.sql.Connection;
+import nextQuest.ifc.*;
 
 public class RolePersonalist extends PrivilegedRole implements iRolePersonalist {
-    public RolePersonalist()  throws RemoteException
+    public RolePersonalist(Connection con, User u)  throws RemoteException
     {
+	super(con, u);
     }
     
     
     @Override
-    public UserManagerAdmin getUserManagerAdmin() {
+    public UserManagerAdmin getUserManagerAdmin() throws RemoteException, nqException
+    {
         return null;
     }
 }

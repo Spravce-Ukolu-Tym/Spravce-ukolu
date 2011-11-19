@@ -12,7 +12,6 @@ import java.rmi.*;
  */
 public interface iProjectManager extends Remote
 {
-
     void createProject() throws RemoteException, nqException;
     
 }

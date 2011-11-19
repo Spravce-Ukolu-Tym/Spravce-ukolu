@@ -7,6 +7,6 @@ public interface iUserManager extends Remote
 
     iUser[] findUsersByAbilities() throws RemoteException, nqException;
 
-    iAbility[] listAblities() throws RemoteException, nqException;
+    Ability[] listAblities() throws RemoteException, nqException;
     
 }
