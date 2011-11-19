@@ -12,6 +12,12 @@ import java.rmi.*;
 public interface iUser extends Remote
 {
 
+    Boolean getPermissionAdmin() throws RemoteException, nqException;
+
+    Boolean getPermissionLeader() throws RemoteException, nqException;
+
+    Boolean getPermissionPersonalist() throws RemoteException, nqException;
+    
     Ability[] getAbilityList() throws RemoteException, nqException;
 
     String getLoginName() throws RemoteException, nqException;

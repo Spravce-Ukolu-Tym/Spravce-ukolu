@@ -80,4 +80,22 @@ public class User extends UnicastRemoteObject  implements iUser {
     public void requestChange() {
 	throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    @Override
+    public Boolean getPermissionAdmin() throws RemoteException, nqException
+    {
+	return this.PermissionAdmin;
+    }
+
+    @Override
+    public Boolean getPermissionLeader() throws RemoteException, nqException
+    {
+	return this.PermissionLeader;
+    }
+
+    @Override
+    public Boolean getPermissionPersonalist() throws RemoteException, nqException
+    {
+	return this.PermissionPersonalist;
+    }
 }
