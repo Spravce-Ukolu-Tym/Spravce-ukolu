@@ -5,10 +5,8 @@
 package nextQuest.ifc;
 
 import java.rmi.*;
-/**
- *
- * @author suk
- */
+import nextQuest.server.Ability;
+
 public interface iUser extends Remote
 {
 

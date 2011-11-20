@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 public class nextQuestServer
 {
 
@@ -53,7 +54,7 @@ public class nextQuestServer
 	
 	String constr = String.format("jdbc:mysql://%s:%d/%s", mysql, myport, dbname);
 	
-	Connection con = DriverManager.getConnection(constr, dbuser, dbpass);	
+	Connection con = DriverManager.getConnection(constr, dbuser, dbpass);
 	
 	System.out.printf("Connected...\n");
 	

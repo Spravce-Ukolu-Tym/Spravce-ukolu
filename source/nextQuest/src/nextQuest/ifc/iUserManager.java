@@ -1,6 +1,8 @@
 package nextQuest.ifc;
 
 import java.rmi.*;
+import nextQuest.server.Ability;
+
 
 public interface iUserManager extends Remote
 {

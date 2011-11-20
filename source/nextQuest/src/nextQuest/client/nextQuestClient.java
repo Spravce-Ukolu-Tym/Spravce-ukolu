@@ -4,13 +4,15 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import nextQuest.ifc.*;
+import nextQuest.server.Ability;
 
 public class nextQuestClient
 {
 
-    public static void main(String[] args) throws NotBoundException, MalformedURLException, RemoteException
+    public static void main(String[] args) throws NotBoundException, MalformedURLException, RemoteException, NoSuchAlgorithmException
     {
 	String server = "rmi://localhost/con"; //inicializacni hodnota pro pripad, ze v argumentech nebude nic takovyho nalezeno
 	//String server = "rmi://nextquest.sytes.net/con";
@@ -51,7 +53,13 @@ public class nextQuestClient
 	iUser usr;
 	try
 	{
-	    usr = mg.Login(name, pass); //pokusit se prihlasit
+	    long sid = mg.createLoginSession();//ziskam login session ID
+
+	    String salt = mg.getPasswordSalt(sid); //ziskam "sul"... 
+
+	    pass = Static.MD5(Static.MD5(pass).concat(salt)); // zahashovat heslo a prihashovat k tomu sul
+
+	    usr = mg.Login(sid, name, pass); //pokusit se prihlasit
 	    System.out.printf("Loged in! I am '%s', permissions:\n", usr.getName());
 	}
 	catch (nqException e) //nqException je potreba vzdy odchytit!
@@ -96,19 +104,80 @@ public class nextQuestClient
 		System.out.println("  Personalist permission...");
 		rper = (iRolePersonalist) rl;
 	    }
+
 	}
 
+
+
+
+
+	//CreateAbilities(radmin);
+	CreateFewUsers(radmin);
+
+    }
+
+    private static void CreateFewUsers(iRoleAdmin radmin) throws RemoteException
+    {
+	iUserManagerAdmin uma;
+	try
+	{
+	    uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
+	}
+	catch (nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;
+	}
+
+	try
+	{
+	    uma.createUser("pepanov", "Pepa Novák", Static.MD5("heslo"), false, false);
+	    uma.createUser("mychaso", "Mychal Soušek", Static.MD5("heslo"), false, true); //leader
+	    uma.createUser("lachike", "Lachim Kečuos", Static.MD5("heslo"), false, true); //leader
+
+	}
+	catch (nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	}
+	catch (NoSuchAlgorithmException nse)
+	{
+	    System.out.println("Java sux!");
+	}
+    }
+
+    private static void CreateAbilities(iRoleAdmin radmin) throws RemoteException
+    {
 	if (radmin != null) ///pokud je admin
 	{
+	    String[] abils = new String[]
+	    {
+		"Java", "C#", "PHP", "SQL", "Python", "Perl", "Brainfuck", "Assembler", "Windows", "Linux", "Bash", "Pascal", "Visual Basic", "VHDL", "UML", "XML", "HTML", "CSS"
+	    };
+
+
+	    iUserManagerAdmin uma;
 	    try
 	    {
-		iUserManagerAdmin uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
-
-		uma.createAbility(new Ability("Abilita", "Totalni popisek", 666)); //vytvorit novou schopnost (pri vytvareni nehraje level roli)
+		uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
 	    }
 	    catch (nqException e)
 	    {
 		System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+		return;
+	    }
+
+	    for (String abl : abils)
+	    {
+		try
+		{
+
+		    uma.createAbility(new Ability(abl, String.format("Uživatel je schopen používat: %s", abl), 666)); //vytvorit novou schopnost (pri vytvareni nehraje level roli)
+		}
+		catch (nqException e)
+		{
+		    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+		}
 	    }
 	}
     }

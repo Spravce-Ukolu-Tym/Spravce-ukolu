@@ -120,7 +120,7 @@ public class LoginDialog extends javax.swing.JFrame {
             String pswd = "";
             for(int i=0; i<t_password.getPassword().length; i++)
                 pswd += t_password.getPassword()[i];
-	    usr = mg.Login(t_login.getText(), pswd);
+	    usr = mg.Login(0, t_login.getText(), pswd);   //!--TODO--! viz issue #26 @ github
             setVisible(false);
             MainWindow main =new MainWindow(this, usr);
             main.setVisible(true);

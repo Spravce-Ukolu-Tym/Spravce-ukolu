@@ -1,1 +1,12 @@
 iUserManagerAdmin: removeAbility, createAbility etc - pridat do UML ze to ma parametry
+iUserManagerAdmin: create, edit, remove - User. Pridat parametry, returny
+iUser - changePassword
+
+
+DB:
+Project ma svojeho leadera! 
+Ke kazdy polozce createdby (krome ability), datum stvoreni, *datum posledni upravy*? 
+
+
+
+Opravit kodovani Java <-> DB

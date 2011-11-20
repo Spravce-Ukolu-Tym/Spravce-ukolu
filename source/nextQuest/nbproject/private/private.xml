@@ -1,34 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/client/nextQuestClient.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/nextQuestServer.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/User.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iUser.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/Connector.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/nqException.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/nqExceptionType.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/eTaskStatus.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iConnector.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iPrivilegedRole.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iProjectManager.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iRoleAdmin.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iRoleLeader.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iRolePersonalist.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iTask.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iTaskManager.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iTaskManagerLeader.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iUserManager.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/iUserManagerAdmin.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/RolePersonalist.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/UserManagerAdmin.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/ifc/Ability.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/RoleAdmin.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/RoleLeader.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/PrivilegedRole.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/server/UserManager.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/guiClient/MainWindow.java</file>
-        <file>file:/home/suk/school/felcvut/sem3/psi/Spravce-ukolu/source/nextQuest/src/nextQuest/guiClient/nextQuestClient.java</file>
-    </open-files>
 </project-private>

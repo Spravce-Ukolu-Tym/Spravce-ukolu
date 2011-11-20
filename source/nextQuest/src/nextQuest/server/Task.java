@@ -1,9 +1,8 @@
 package nextQuest.server;
 
-import nextQuest.ifc.Ability;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import nextQuest.ifc.iTask;
+import nextQuest.ifc.*;
 import java.util.Date;
 
 public class Task  extends UnicastRemoteObject implements iTask {

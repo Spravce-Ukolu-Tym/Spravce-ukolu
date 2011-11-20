@@ -1,6 +1,5 @@
 package nextQuest.server;
 
-import nextQuest.ifc.Ability;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
@@ -20,6 +19,8 @@ public class User extends UnicastRemoteObject  implements iUser {
     private int iduser;
     private Connection con;
     
+    
+    
     public User(int iduser, String Name, String LoginName, Boolean PermissionAdmin, Boolean PermissionLeader, Boolean PermissionPersonalist, Connection con) throws RemoteException
     {	
         this.Name = Name;
@@ -33,6 +34,12 @@ public class User extends UnicastRemoteObject  implements iUser {
 	this.iduser = iduser;
     }
 
+    int getID()
+    {
+	return this.iduser;
+    }
+    
+    
     @Override
     public String getLoginName() {
         return LoginName;
