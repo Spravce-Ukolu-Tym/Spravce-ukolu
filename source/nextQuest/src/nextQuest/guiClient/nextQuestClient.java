@@ -20,13 +20,33 @@ public class nextQuestClient
         inf.setVisible(true);
 
         String server = "";
+        int port = -1;
         try {
             Scanner s = new Scanner(new FileInputStream("config.txt"), "UTF8");
-            server = s.next();
+            String arg;
+            while(s.hasNext()) {
+                arg = s.next();
+                String[] pr = arg.split("=");
+
+                if (pr.length != 2) {
+                    continue;
+                }
+                // vyhodnocení config parametrů
+                if (pr[0].equals("server")) {
+                    server = pr[1];
+                } else if(pr[0].equals("port")) {
+                    port = Integer.parseInt(pr[1]);
+                }
+            }
             s.close();
         } catch (IOException e) {
             inf.setVisible(false);
             JOptionPane.showMessageDialog(null, "Mising configuration file..", "Error", JOptionPane.ERROR_MESSAGE, null);
+            System.exit(0);
+        }
+        if(server.equals("") || port == -1) {
+            inf.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Bad configuration file format..", "Error", JOptionPane.ERROR_MESSAGE, null);
             System.exit(0);
         }
 
@@ -48,8 +68,6 @@ public class nextQuestClient
             inf.setVisible(false);
             JOptionPane.showMessageDialog(null, "Remote exception..", "Error", JOptionPane.ERROR_MESSAGE, null);
             Logger.getLogger(nextQuestClient.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            System.exit(0);
         }
     }
 }

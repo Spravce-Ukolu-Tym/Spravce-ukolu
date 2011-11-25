@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nextQuest.ifc.Static;
 import nextQuest.ifc.iConnector;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.nqException;
@@ -120,7 +122,11 @@ public class LoginDialog extends javax.swing.JFrame {
             String pswd = "";
             for(int i=0; i<t_password.getPassword().length; i++)
                 pswd += t_password.getPassword()[i];
-	    usr = mg.Login(0, t_login.getText(), pswd);   //!--TODO--! viz issue #26 @ github
+            long sid = mg.createLoginSession();
+            String salt = mg.getPasswordSalt(sid);
+            pswd = Static.MD5(Static.MD5(pswd).concat(salt));
+	    usr = mg.Login(sid, t_login.getText(), pswd);
+
             setVisible(false);
             MainWindow main =new MainWindow(this, usr);
             main.setVisible(true);
@@ -130,8 +136,9 @@ public class LoginDialog extends javax.swing.JFrame {
             l_info.setForeground(Color.BLACK);
             l_info.setText("Please, log in..");
             pswd = "";
-	}
-        catch (RemoteException ex) {
+	} catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch(nqException e) {
             l_info.setForeground(Color.red);

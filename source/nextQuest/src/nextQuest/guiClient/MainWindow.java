@@ -13,6 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import nextQuest.ifc.iPrivilegedRole;
+import nextQuest.ifc.iRoleAdmin;
+import nextQuest.ifc.iRoleLeader;
+import nextQuest.ifc.iRolePersonalist;
 import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.nqException;
@@ -20,9 +25,12 @@ import nextQuest.ifc.nqException;
 public class MainWindow extends javax.swing.JFrame {
     private LoginDialog parentWindow;
     private iUser usr;
+    private iRoleAdmin radmin = null;
+    private iRoleLeader rlead = null;
+    private iRolePersonalist rper = null;
 
     /** Creates new form NewJFrame */
-    public MainWindow(LoginDialog parentWindow, final iUser usr) {
+    public MainWindow(LoginDialog parentWindow, final iUser usr) throws RemoteException {
         initComponents();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screen.width / 2 - getWidth() / 2, screen.height / 2 - getHeight() / 2);
@@ -30,42 +38,57 @@ public class MainWindow extends javax.swing.JFrame {
         this.parentWindow = parentWindow;
 
         // zobrazení karet dle oprávnění
-        try {
-            if (usr.getPermissionLeader()) {
-                pane_projects.setVisible(false);
-                pane_tasks.setVisible(false);
-            } else {
-                pane_projects.setVisible(true);
-                pane_tasks.setVisible(true);
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (nqException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        iPrivilegedRole[] roles;
+	try
+	{
+	    roles = usr.getRoles(); //ziskat seznam roli
+	}
+	catch (nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;
+	}
+        boolean admin = false, leader = false, personalist = false;
+	for (iPrivilegedRole rl : roles) //test existujicich roli
+	{
+	    if (rl instanceof iRoleAdmin)
+	    {
+		admin = true;
+		radmin = (iRoleAdmin) rl;
+	    }
+	    else if (rl instanceof iRoleLeader)
+	    {
+		leader = true;
+		rlead = (iRoleLeader) rl;
+	    }
+	    else if (rl instanceof iRolePersonalist)
+	    {
+		personalist = true;
+		rper = (iRolePersonalist) rl;
+	    }
+	}
+        if (!admin) {
+            tabbed_pane.remove(pane_projects);
         }
-        try {
-            if (usr.getPermissionPersonalist()) {
-                pane_staff.setVisible(false);
-            } else {
-                pane_staff.setVisible(true);
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (nqException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        if (!(leader || admin)) {
+            tabbed_pane.remove(pane_tasks);
+        }
+        if (!(personalist || admin)) {
+            tabbed_pane.remove(pane_staff);
         }
 
-	
-        // inicializace karty Quests
+        // inicializace "stavového" řádku
         this.usr = usr;
         try {
             t_name.setText(usr.getName());
-            t_authorization.setText((usr.getPermissionAdmin() ? " admin" : "") + (usr.getPermissionLeader() ? " leader" : "") + (usr.getPermissionPersonalist() ? " personalist" : ""));
+            t_authorization.setText((admin ? " admin" : "") + (leader ? " leader" : "") + (personalist ? " personalist" : ""));
         } catch (RemoteException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (nqException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
+	
+        // inicializace karty Quests
         ProjectsTableModel tableOfProjects = new ProjectsTableModel(usr);
         final QuestsPanel quests = new QuestsPanel();
         scroll_quests.add(quests);
@@ -137,20 +160,21 @@ public class MainWindow extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        pane_staff = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table_staff = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jPasswordField3 = new javax.swing.JPasswordField();
-        jButton15 = new javax.swing.JButton();
+        p_old_password = new javax.swing.JPasswordField();
+        p_new_password = new javax.swing.JPasswordField();
+        p_password_again = new javax.swing.JPasswordField();
+        b_change_password = new javax.swing.JButton();
+        pane_staff = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_staff = new javax.swing.JTable();
+        b_add_new_person = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        b_edit_person = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -349,6 +373,70 @@ public class MainWindow extends javax.swing.JFrame {
 
         tabbed_pane.addTab("Tasks", pane_tasks);
 
+        jLabel6.setText("Old password:");
+
+        jLabel7.setText("New password:");
+
+        jLabel8.setText("New password again:");
+
+        p_old_password.setText("jPasswordField1");
+
+        p_new_password.setText("jPasswordField2");
+
+        p_password_again.setText("jPasswordField3");
+
+        b_change_password.setText("Change password");
+        b_change_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_change_passwordActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(b_change_password)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(91, 91, 91)
+                            .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(324, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(b_change_password)
+                .addContainerGap(338, Short.MAX_VALUE))
+        );
+
+        tabbed_pane.addTab("User", jPanel1);
+
         table_staff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -363,10 +451,10 @@ public class MainWindow extends javax.swing.JFrame {
         table_staff.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(table_staff);
 
-        jButton5.setText("Add new person");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        b_add_new_person.setText("Add new person");
+        b_add_new_person.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                b_add_new_personActionPerformed(evt);
             }
         });
 
@@ -379,6 +467,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton7.setText("Print list");
 
+        b_edit_person.setText("Edit person");
+        b_edit_person.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_edit_personActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pane_staffLayout = new javax.swing.GroupLayout(pane_staff);
         pane_staff.setLayout(pane_staffLayout);
         pane_staffLayout.setHorizontalGroup(
@@ -387,10 +482,12 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(b_add_new_person)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(b_edit_person, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pane_staffLayout.setVerticalGroup(
@@ -400,74 +497,17 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                     .addGroup(pane_staffLayout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(b_add_new_person)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(b_edit_person)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
-                        .addGap(27, 27, 27)
+                        .addGap(34, 34, 34)
                         .addComponent(jButton7)))
                 .addContainerGap())
         );
 
         tabbed_pane.addTab("Staff", pane_staff);
-
-        jLabel6.setText("Old password:");
-
-        jLabel7.setText("New password:");
-
-        jLabel8.setText("New password again:");
-
-        jPasswordField1.setText("jPasswordField1");
-
-        jPasswordField2.setText("jPasswordField2");
-
-        jPasswordField3.setText("jPasswordField3");
-
-        jButton15.setText("Change password");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton15)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(91, 91, 91)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(324, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton15)
-                .addContainerGap(338, Short.MAX_VALUE))
-        );
-
-        tabbed_pane.addTab("User", jPanel1);
 
         getContentPane().add(tabbed_pane, java.awt.BorderLayout.CENTER);
         tabbed_pane.getAccessibleContext().setAccessibleName("");
@@ -496,23 +536,36 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
 }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void b_add_new_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_add_new_personActionPerformed
+        iPrivilegedRole pRole = radmin;
+        if(radmin == null) pRole = rper;
+        PersonForm newPersonForm = new PersonForm(this, true, pRole);
+    }//GEN-LAST:event_b_add_new_personActionPerformed
+
+    private void b_edit_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_edit_personActionPerformed
         // TODO add your handling code here:
-        NewPersonForm newPersonForm = new NewPersonForm();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_b_edit_personActionPerformed
+
+    private void b_change_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_change_passwordActionPerformed
+        if(p_new_password.getText().equals(p_password_again.getText())) {
+        
+        }
+        //změna hesla
+    }//GEN-LAST:event_b_change_passwordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b_add_new_person;
+    private javax.swing.JButton b_change_password;
+    private javax.swing.JButton b_edit_person;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -529,9 +582,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -539,6 +589,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel l_projectName;
+    private javax.swing.JPasswordField p_new_password;
+    private javax.swing.JPasswordField p_old_password;
+    private javax.swing.JPasswordField p_password_again;
     private javax.swing.JPanel pane_projects;
     private javax.swing.JPanel pane_quests;
     private javax.swing.JPanel pane_staff;
@@ -581,4 +634,90 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
+
+
+    private class ProjectsTableModel extends AbstractTableModel {
+        private String[] columnNames = {"Project", "Priority"};
+        private Object[][] data;
+
+        public ProjectsTableModel(iUser usr) {
+            /*
+            try {
+                iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
+                for (iTask task : tasks) {
+                    // získat z úkolů projekty, ve kterých jsou zařazeny
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (nqException ex) {
+                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+            data = new Object[10][2];
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
+
+        @Override
+        public int getRowCount() {
+            return data.length;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            return data[rowIndex].length;
+        }
+    }
+
+
+    private class ProjectsTableModel2 extends AbstractTableModel {
+        private String[] columnNames = {"Project", "Progress in %"};
+        private Object[][] data;
+
+        public ProjectsTableModel2() {
+            /*
+            try {
+                iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
+                for (iTask task : tasks) {
+                    // získat z úkolů projekty, ve kterých jsou zařazeny
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (nqException ex) {
+                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+            data = new Object[10][2];
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
+
+        @Override
+        public int getRowCount() {
+            return data.length;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            return data[rowIndex].length;
+        }
+
+    }
+
 }
