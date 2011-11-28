@@ -251,7 +251,7 @@
               <y:Geometry height="30.0" width="300.591796875" x="2647.259391276041" y="248.36818490724468"/>
               <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="135.625" y="5.6494140625">POS</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="135.625" y="5.649414062499972">POS</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -315,7 +315,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="141.412109375" x="3344.3193359375" y="77.1807885742189"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="131.412109375" x="5.0" y="5.6494140625">založení základu klienta</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -326,7 +326,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="208.73828124999955" x="3344.3193359375" y="115.9018823242188"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="136.73828125" x="36.0" y="5.6494140625">založení základu serveru</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -337,7 +337,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="33.0" width="129.400390625" x="3559.0576171874995" y="75.6807885742189"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="119.400390625" x="5.0" y="7.1494140625">přihlašování uživatelů</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -348,7 +348,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="129.400390625" x="3700.063476562499" y="77.1807885742189"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="119.412109375" x="4.994140625" y="5.6494140625">odhlašování uživatelů</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -359,7 +359,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="107.3984375" x="3841.0693359374986" y="78.6807885742189"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="97.3984375" x="5.0" y="5.6494140625">úrovně oprávnění</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -370,7 +370,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="244.73828124999955" x="3519.388671874999" y="154.6229760742187"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="202.1171875" x="21.310546875" y="5.6494140625">vytvoření hlavního navigačního prvku</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -515,7 +515,7 @@
               <y:Geometry height="30.0" width="97.43739040590435" x="3123.8828125" y="290.29465763736755"/>
               <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="34.04779676545195" y="5.6494140625">POS</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="34.047796765452404" y="5.6494140625">POS</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -524,7 +524,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="107.07130332103361" x="4256.620598339485" y="288.03427102148873"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="88.720703125" x="9.175300098017033" y="5.6494140625">analýza a návrh</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -535,7 +535,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="119.59539011070137" x="3973.0488429428024" y="288.03427102148873"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.033203125" x="14.781093492850687" y="5.6494140625">tutoriál / rešerše</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -568,9 +568,9 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="97.43739040590435" x="3349.136292395065" y="334.51470094761294"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="34.047796765452404" y="5.6494140625">POS</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="34.04779676545195" y="5.6494140625">POS</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -579,7 +579,7 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="107.07130332103361" x="4455.482674856368" y="328.14685362401303"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="88.720703125" x="9.175300098017033" y="5.6494140625">analýza a návrh</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
@@ -590,9 +590,9 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="119.59539011070137" x="4256.620598339485" y="328.14685362401303"/>
-              <y:Fill color="#FFCC00" transparent="false"/>
+              <y:Fill color="#99FF00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.033203125" x="14.781093492850687" y="5.6494140625">tutoriál / rešerše</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.033203125" x="14.781093492851141" y="5.6494140625">tutoriál / rešerše</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
             </y:ShapeNode>
           </data>
@@ -636,7 +636,7 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="107.07130332103361" x="3344.3193359375" y="248.36818490724468"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#99FF00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="88.720703125" x="9.175300098017033" y="5.649414062499972">analýza a návrh</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
@@ -647,9 +647,9 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="119.59539011070137" x="3785.238281249999" y="248.36818490724468"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#99FF00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.033203125" x="14.781093492850687" y="5.6494140625">tutoriál / rešerše</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="90.033203125" x="14.781093492850687" y="5.649414062499972">tutoriál / rešerše</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
         </y:ShapeNode>
       </data>
@@ -660,7 +660,7 @@
           <y:Geometry height="30.0" width="46.5582878228779" x="4255.803710937502" y="248.36818490724465"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="8.60824547393895" y="5.649414062500028">testy</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="29.341796875" x="8.60824547393895" y="5.6494140625">testy</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
         </y:ShapeNode>
       </data>
@@ -669,9 +669,9 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="97.43739040590435" x="3123.8828125000005" y="248.36818490724463"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#99FF00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="72.712890625" x="12.362249890451949" y="5.6494140625">plán projektu</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="72.712890625" x="12.362249890451949" y="5.649414062500028">plán projektu</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
         </y:ShapeNode>
       </data>
@@ -688,7 +688,6 @@
       </data>
     </node>
     <node id="n7">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="EntityRelationship_Entity">
           <y:Geometry height="30.0" width="123.376953125" x="2010.7570452122163" y="254.7234163109714"/>
@@ -702,7 +701,6 @@
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="EntityRelationship_Entity">
           <y:Geometry height="30.0" width="123.376953125" x="2010.7570452122163" y="290.6898171950277"/>
@@ -716,7 +714,6 @@
       </data>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="EntityRelationship_Entity">
           <y:Geometry height="30.0" width="123.376953125" x="2010.7570452122163" y="326.65621807908394"/>
@@ -730,7 +727,6 @@
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="EntityRelationship_Entity">
           <y:Geometry height="166.7654824016563" width="123.376953125" x="2010.7570452122163" y="77.1807885742189"/>
