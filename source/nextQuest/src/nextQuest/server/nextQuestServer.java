@@ -52,7 +52,7 @@ public class nextQuestServer
 	System.out.printf("Connecting to mysql @ %s:%d\n", mysql, myport);
 	Class.forName("com.mysql.jdbc.Driver");
 	
-	String constr = String.format("jdbc:mysql://%s:%d/%s", mysql, myport, dbname);
+	String constr = String.format("jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8", mysql, myport, dbname);
 	
 	Connection con = DriverManager.getConnection(constr, dbuser, dbpass);
 	

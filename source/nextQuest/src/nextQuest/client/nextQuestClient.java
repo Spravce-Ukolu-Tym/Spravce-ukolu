@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import nextQuest.ifc.*;
 import nextQuest.server.Ability;
+import nextQuest.server.UserInfo;
 
 public class nextQuestClient
 {
@@ -112,8 +113,47 @@ public class nextQuestClient
 
 
 	//CreateAbilities(radmin);
-	CreateFewUsers(radmin);
+	//CreateFewUsers(radmin);
+	ListAbilities(radmin);
+	ListUsers(radmin);
 
+    }
+
+    private static void ListUsers(iRoleAdmin radmin) throws RemoteException
+    {
+	try
+	{
+	    iUserManagerAdmin uma = radmin.getUserManagerAdmin();
+	    UserInfo[] abs = uma.listAllUsers();
+
+	    for (UserInfo a : abs)
+	    {
+		System.out.printf("%s ('%s')\n", a.getName(), a.getLoginName());
+	    }
+	}
+	catch (nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;
+	}
+    }
+    private static void ListAbilities(iRoleAdmin radmin) throws RemoteException
+    {
+	try
+	{
+	    iUserManagerAdmin uma = radmin.getUserManagerAdmin();
+	    Ability[] abs = uma.listAblities();
+
+	    for (Ability a : abs)
+	    {
+		System.out.printf("Ability: %s means '%s'\n", a.getName(), a.getDescription());
+	    }
+	}
+	catch (nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;
+	}
     }
 
     private static void CreateFewUsers(iRoleAdmin radmin) throws RemoteException

@@ -91,9 +91,35 @@ public class UserManagerAdmin extends UserManager implements iUserManagerAdmin {
     }
 
     @Override
-    public void editUser(iUser usr, String LoginName, String name, String primaryPassword, Boolean personalist, Boolean leader) throws RemoteException, nqException
+    public void editUser(iUser usr, String LoginName, String Name, String primaryPassword, Boolean personalist, Boolean leader) throws RemoteException, nqException
     {
-	throw new UnsupportedOperationException("Not supported yet.");
+	if(true) throw new nqException(nqExceptionType.ServerError, "Tohle jsem jeste nenaimplementoval");
+	
+	System.out.printf("Edit user %s (login: %s)\n", Name, LoginName);
+	
+	PreparedStatement stat;
+	try
+	{
+	    //!--TODO--! pripadne pridat casy last edit a edited by 
+	    
+	    
+	    
+	    stat = this.con.prepareStatement("UPDATE Users SET `LoginName` = ?, `Name` = ?, `permLeader` = ?, `permPersonalist` = ? WHERE userid = ?");
+	    
+	    stat.setString(1, LoginName);
+	    stat.setString(2, Name);
+	    stat.setString(3, primaryPassword);
+	    /*stat.setByte(, (byte)(leader ? 1 : 0));*/
+	    stat.setByte(6, (byte)(personalist ? 1 : 0));
+	    
+	    
+	    stat.executeUpdate();
+	    
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.DBError, String.format("DB Error (%d): %s", ex.getErrorCode(), ex.getMessage()));
+	}
     }
 
     @Override
