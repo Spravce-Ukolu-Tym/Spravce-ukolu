@@ -130,9 +130,10 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (nqException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /*
         StaffTableModel tableOfStaff = new StaffTableModel(uma);
         table_staff.setModel(tableOfStaff);
-
+*/
         setVisible(true);
        }
 
@@ -280,6 +281,11 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane3.setViewportView(table_projects2);
 
         jButton8.setText("Add new project");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Edit project");
 
@@ -569,6 +575,11 @@ public class MainWindow extends javax.swing.JFrame {
         }
         //změna hesla
     }//GEN-LAST:event_b_change_passwordActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_add_new_person;
