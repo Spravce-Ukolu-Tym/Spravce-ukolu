@@ -1,1 +1,2 @@
-rmi://nextquest.sytes.net/con
+server=rmi://localhost/con
+port=666

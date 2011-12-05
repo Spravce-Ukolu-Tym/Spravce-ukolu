@@ -20,6 +20,7 @@ public class LoginDialog extends javax.swing.JFrame {
     public LoginDialog(iConnector mg) {
         this.mg = mg;
         initComponents();
+        initiaize();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screen.width/2-getWidth()/2, screen.height/2-getHeight()/2);
         getRootPane().setDefaultButton(b_login);
@@ -129,13 +130,8 @@ public class LoginDialog extends javax.swing.JFrame {
 
             setVisible(false);
             MainWindow main =new MainWindow(this, usr);
-            main.setVisible(true);
-            t_login.setText("");
-            t_password.setText("");
-            t_login.requestFocus();
-            l_info.setForeground(Color.BLACK);
-            l_info.setText("Please, log in..");
             pswd = "";
+            initiaize();
 	} catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
@@ -159,4 +155,12 @@ public class LoginDialog extends javax.swing.JFrame {
     private javax.swing.JTextField t_login;
     private javax.swing.JPasswordField t_password;
     // End of variables declaration//GEN-END:variables
+
+    private void initiaize() {
+        t_login.setText("");
+        t_password.setText("");
+        t_login.requestFocus();
+        l_info.setForeground(Color.BLACK);
+        l_info.setText("Please, log in..");
+    }
 }

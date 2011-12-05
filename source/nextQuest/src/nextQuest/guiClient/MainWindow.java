@@ -20,7 +20,10 @@ import nextQuest.ifc.iRoleLeader;
 import nextQuest.ifc.iRolePersonalist;
 import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
+import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
+import nextQuest.server.UserManager;
+import nextQuest.server.UserManagerAdmin;
 
 public class MainWindow extends javax.swing.JFrame {
     private LoginDialog parentWindow;
@@ -111,13 +114,27 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         // inicializace karty Projects
-        StaffTableModel tableOfStaff = new StaffTableModel();
-        table_staff.setModel(tableOfStaff);
-
-        // inicializace karty Staff
         ProjectsTableModel2 tableOfProjects2 = new ProjectsTableModel2();
         table_projects2.setModel(tableOfProjects2);
-    }
+
+        // inicializace karty Staff
+        iPrivilegedRole pRole = radmin;
+        if(radmin == null) pRole = rper;
+        iUserManagerAdmin uma = null;
+        try {
+            if(pRole instanceof iRoleAdmin) {
+                uma = ((iRoleAdmin) pRole).getUserManagerAdmin();
+            } else if(pRole instanceof iRolePersonalist) {
+                uma = ((iRolePersonalist) pRole).getUserManagerAdmin();
+            }
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        StaffTableModel tableOfStaff = new StaffTableModel(uma);
+        table_staff.setModel(tableOfStaff);
+
+        setVisible(true);
+       }
 
     /** This method is called from within the constructor to
      * initialize the form.
