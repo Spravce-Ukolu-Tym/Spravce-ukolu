@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
@@ -22,6 +23,9 @@ import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
+import nextQuest.mock.UserManagerAdminMock;
+import nextQuest.server.User;
+import nextQuest.server.UserInfo;
 import nextQuest.server.UserManager;
 import nextQuest.server.UserManagerAdmin;
 
@@ -31,6 +35,8 @@ public class MainWindow extends javax.swing.JFrame {
     private iRoleAdmin radmin = null;
     private iRoleLeader rlead = null;
     private iRolePersonalist rper = null;
+
+    private iUserManagerAdmin uma = null;
 
     /** Creates new form NewJFrame */
     public MainWindow(LoginDialog parentWindow, final iUser usr) throws RemoteException {
@@ -79,6 +85,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (!(personalist || admin)) {
             tabbed_pane.remove(pane_staff);
         }
+        setUserManagerAdmin();
 
         // inicializace "stavového" řádku
         this.usr = usr;
@@ -118,22 +125,10 @@ public class MainWindow extends javax.swing.JFrame {
         table_projects2.setModel(tableOfProjects2);
 
         // inicializace karty Staff
-        iPrivilegedRole pRole = radmin;
-        if(radmin == null) pRole = rper;
-        iUserManagerAdmin uma = null;
-        try {
-            if(pRole instanceof iRoleAdmin) {
-                uma = ((iRoleAdmin) pRole).getUserManagerAdmin();
-            } else if(pRole instanceof iRolePersonalist) {
-                uma = ((iRolePersonalist) pRole).getUserManagerAdmin();
-            }
-        } catch (nqException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*
         StaffTableModel tableOfStaff = new StaffTableModel(uma);
         table_staff.setModel(tableOfStaff);
-*/
+        table_staff.setRowSelectionInterval(0, 0);
+
         setVisible(true);
        }
 
@@ -178,7 +173,14 @@ public class MainWindow extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pane_staff = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_staff = new javax.swing.JTable();
+        b_add_new_person = new javax.swing.JButton();
+        b_delete_person = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        b_edit_person = new javax.swing.JButton();
+        panel_user = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -186,13 +188,6 @@ public class MainWindow extends javax.swing.JFrame {
         p_new_password = new javax.swing.JPasswordField();
         p_password_again = new javax.swing.JPasswordField();
         b_change_password = new javax.swing.JButton();
-        pane_staff = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table_staff = new javax.swing.JTable();
-        b_add_new_person = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        b_edit_person = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -369,8 +364,8 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(jButton13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton12))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11)))
                 .addContainerGap())
         );
@@ -386,7 +381,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jButton11)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                     .addGroup(pane_tasksLayout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pane_tasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton12)
@@ -395,70 +390,6 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         tabbed_pane.addTab("Tasks", pane_tasks);
-
-        jLabel6.setText("Old password:");
-
-        jLabel7.setText("New password:");
-
-        jLabel8.setText("New password again:");
-
-        p_old_password.setText("jPasswordField1");
-
-        p_new_password.setText("jPasswordField2");
-
-        p_password_again.setText("jPasswordField3");
-
-        b_change_password.setText("Change password");
-        b_change_password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_change_passwordActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(b_change_password)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(91, 91, 91)
-                            .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(324, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(b_change_password)
-                .addContainerGap(338, Short.MAX_VALUE))
-        );
-
-        tabbed_pane.addTab("User", jPanel1);
 
         table_staff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -481,10 +412,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Delete person");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        b_delete_person.setText("Delete person");
+        b_delete_person.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                b_delete_personActionPerformed(evt);
             }
         });
 
@@ -505,12 +436,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(b_add_new_person)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(b_edit_person, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(b_add_new_person, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(b_edit_person, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(b_delete_person, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pane_staffLayout.setVerticalGroup(
@@ -524,13 +454,77 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_edit_person)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
+                        .addComponent(b_delete_person)
                         .addGap(34, 34, 34)
                         .addComponent(jButton7)))
                 .addContainerGap())
         );
 
         tabbed_pane.addTab("Staff", pane_staff);
+
+        jLabel6.setText("Old password:");
+
+        jLabel7.setText("New password:");
+
+        jLabel8.setText("New password again:");
+
+        p_old_password.setText("jPasswordField1");
+
+        p_new_password.setText("jPasswordField2");
+
+        p_password_again.setText("jPasswordField3");
+
+        b_change_password.setText("Change password");
+        b_change_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_change_passwordActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel_userLayout = new javax.swing.GroupLayout(panel_user);
+        panel_user.setLayout(panel_userLayout);
+        panel_userLayout.setHorizontalGroup(
+            panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_userLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(b_change_password)
+                    .addGroup(panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(panel_userLayout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panel_userLayout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panel_userLayout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(91, 91, 91)
+                            .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(324, Short.MAX_VALUE))
+        );
+        panel_userLayout.setVerticalGroup(
+            panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_userLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(p_new_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(p_password_again, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(b_change_password)
+                .addContainerGap(338, Short.MAX_VALUE))
+        );
+
+        tabbed_pane.addTab("User", panel_user);
 
         getContentPane().add(tabbed_pane, java.awt.BorderLayout.CENTER);
         tabbed_pane.getAccessibleContext().setAccessibleName("");
@@ -555,18 +549,67 @@ public class MainWindow extends javax.swing.JFrame {
         dispose();
 }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton6ActionPerformed
+    private void b_delete_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_delete_personActionPerformed
+        if(table_staff.getSelectedRow()>=table_staff.getRowCount()) {
+            JOptionPane.showMessageDialog(parentWindow, "None of the users selected.", "Error", JOptionPane.ERROR_MESSAGE ,null);
+            return;
+        }
+        try {
+            int selectedRow = table_staff.getSelectedRow();
+            UserInfo usrInf = ((StaffTableModel) table_staff.getModel()).getElementAt(selectedRow);
+            iUser user = new User(usrInf.getID(), usrInf.getLoginName(), usrInf.getName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null);
+            try {
+                uma.removeUser(user);
+                ((StaffTableModel)table_staff.getModel()).updateContent();
+                table_staff.updateUI();
+                if(table_staff.getSelectedRow()>=table_staff.getRowCount() && table_staff.getRowCount()!=0) {
+                    table_staff.setRowSelectionInterval(table_staff.getRowCount()-1, table_staff.getRowCount()-1);
+                }
+            } catch (nqException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_b_delete_personActionPerformed
 
     private void b_add_new_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_add_new_personActionPerformed
-        iPrivilegedRole pRole = radmin;
-        if(radmin == null) pRole = rper;
-        PersonForm newPersonForm = new PersonForm(this, true, pRole);
+        try {
+            PersonForm newPersonForm = new PersonForm(this, true, uma, null);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ((StaffTableModel) table_staff.getModel()).updateContent();
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ((StaffTableModel) table_staff.getModel()).updateContent();
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        table_staff.updateUI();
     }//GEN-LAST:event_b_add_new_personActionPerformed
 
     private void b_edit_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_edit_personActionPerformed
-        // TODO add your handling code here:
+        try {
+            PersonForm newPersonForm = new PersonForm(this, true, uma,
+                    ((StaffTableModel) table_staff.getModel()).getElementAt(table_staff.getSelectedRow()));
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ((StaffTableModel) table_staff.getModel()).updateContent();
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ((StaffTableModel) table_staff.getModel()).updateContent();
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        table_staff.updateUI();
     }//GEN-LAST:event_b_edit_personActionPerformed
 
     private void b_change_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_change_passwordActionPerformed
@@ -584,6 +627,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_add_new_person;
     private javax.swing.JButton b_change_password;
+    private javax.swing.JButton b_delete_person;
     private javax.swing.JButton b_edit_person;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -594,7 +638,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -607,7 +650,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JList jList1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
@@ -624,6 +666,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel pane_quests;
     private javax.swing.JPanel pane_staff;
     private javax.swing.JPanel pane_tasks;
+    private javax.swing.JPanel panel_user;
     private javax.swing.JScrollPane scroll_quests;
     private javax.swing.JLabel t_authorization;
     private javax.swing.JLabel t_name;
@@ -632,6 +675,23 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable table_projects2;
     private javax.swing.JTable table_staff;
     // End of variables declaration//GEN-END:variables
+
+    private void setUserManagerAdmin() throws RemoteException {
+        /*
+        iPrivilegedRole pRole = radmin;
+        if(radmin == null) pRole = rper;
+        try {
+            if(pRole instanceof iRoleAdmin) {
+                uma = ((iRoleAdmin) pRole).getUserManagerAdmin();
+            } else if(pRole instanceof iRolePersonalist) {
+                uma = ((iRolePersonalist) pRole).getUserManagerAdmin();
+            }
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         */
+        this.uma = new UserManagerAdminMock();
+    }
 
     private class QuestsPanel extends JPanel {
         iTask [] model;

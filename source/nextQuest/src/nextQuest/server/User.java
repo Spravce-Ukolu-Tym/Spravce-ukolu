@@ -34,7 +34,8 @@ public class User extends UnicastRemoteObject  implements iUser {
 	this.iduser = iduser;
     }
 
-    int getID()
+    @Override
+    public int getID()
     {
 	return this.iduser;
     }
@@ -105,4 +106,46 @@ public class User extends UnicastRemoteObject  implements iUser {
     {
 	return this.PermissionPersonalist;
     }
+
+    public void setLoginName(String LoginName) {
+        this.LoginName = LoginName;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setPermissionLeader(Boolean PermissionLeader) {
+        this.PermissionLeader = PermissionLeader;
+    }
+
+    public void setPermissionPersonalist(Boolean PermissionPersonalist) {
+        this.PermissionPersonalist = PermissionPersonalist;
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.iduser != other.iduser) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.iduser;
+        return hash;
+    }
+
+    
 }
