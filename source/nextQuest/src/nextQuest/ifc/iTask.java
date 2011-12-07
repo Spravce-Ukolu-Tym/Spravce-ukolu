@@ -3,6 +3,7 @@ package nextQuest.ifc;
 import java.rmi.*;
 import nextQuest.server.Ability;
 import java.util.Date;
+import nextQuest.server.Project;
 
 
 
@@ -32,5 +33,9 @@ public interface iTask extends Remote
     void reject(String Reason) throws RemoteException, nqException;
 
     void returnTask() throws RemoteException, nqException;
+
+    Project getProject() throws RemoteException, nqException;
+
+    String getName() throws RemoteException, nqException;
     
 }

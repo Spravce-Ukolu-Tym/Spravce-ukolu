@@ -15,8 +15,10 @@ public class Task  extends UnicastRemoteObject implements iTask {
     private Task[] Subtasks;
     private Integer Percentage;
     private Ability[] NecessaryAbilities;
+    private Project Project;
+    private String Name;
 
-    public Task(Date CreaitonDate, String Description, Integer MaxHours, User Creator, User AssignedTo, Boolean isSubtask, Task[] Subtasks, Integer Percentage, Ability[] NecessaryAbilities) throws RemoteException{
+    public Task(Date CreaitonDate, String Description, Integer MaxHours, User Creator, User AssignedTo, Boolean isSubtask, Task[] Subtasks, Integer Percentage, Ability[] NecessaryAbilities, Project Project, String Name) throws RemoteException{
         this.CreaitonDate = CreaitonDate;
         this.Description = Description;
         this.MaxHours = MaxHours;
@@ -26,6 +28,8 @@ public class Task  extends UnicastRemoteObject implements iTask {
         this.Subtasks = Subtasks;
         this.Percentage = Percentage;
         this.NecessaryAbilities = NecessaryAbilities;
+        this.Project = Project;
+        this.Name = Name;
     }
 
     @Override
@@ -83,6 +87,16 @@ public class Task  extends UnicastRemoteObject implements iTask {
 
     @Override
     public void returnTask() {
+    }
+
+    @Override
+    public Project getProject() {
+        return Project;
+    }
+
+    @Override
+    public String getName() {
+        return Name;
     }
 }
 

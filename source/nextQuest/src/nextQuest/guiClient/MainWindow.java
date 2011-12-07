@@ -1,17 +1,14 @@
 package nextQuest.guiClient;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -19,15 +16,15 @@ import nextQuest.ifc.iPrivilegedRole;
 import nextQuest.ifc.iRoleAdmin;
 import nextQuest.ifc.iRoleLeader;
 import nextQuest.ifc.iRolePersonalist;
-import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
+import nextQuest.mock.TaskManagerMock;
 import nextQuest.mock.UserManagerAdminMock;
+import nextQuest.server.Project;
+import nextQuest.server.Task;
 import nextQuest.server.User;
 import nextQuest.server.UserInfo;
-import nextQuest.server.UserManager;
-import nextQuest.server.UserManagerAdmin;
 
 public class MainWindow extends javax.swing.JFrame {
     private LoginDialog parentWindow;
@@ -37,6 +34,7 @@ public class MainWindow extends javax.swing.JFrame {
     private iRolePersonalist rper = null;
 
     private iUserManagerAdmin uma = null;
+    QuestsPanel quests = new QuestsPanel();
 
     /** Creates new form NewJFrame */
     public MainWindow(LoginDialog parentWindow, final iUser usr) throws RemoteException {
@@ -100,25 +98,22 @@ public class MainWindow extends javax.swing.JFrame {
 	
         // inicializace karty Quests
         ProjectsTableModel tableOfProjects = new ProjectsTableModel(usr);
-        final QuestsPanel quests = new QuestsPanel();
-        scroll_quests.add(quests);
         table_projects.setModel(tableOfProjects);
+        table_projects.updateUI();
         table_projects.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                /*
                 try {
-                    quests.updateModel(usr.getTaskManager().getAssingnedTasks());
+                    updateQuestList();
                 } catch (RemoteException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (nqException ex) {
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                 * 
-                 */
-                l_projectName.setText("Project name"/*(String) table_projects.getValueAt(table_projects.getSelectedRow(), 0)*/);
             }
         });
+        //scroll_quests.setViewportView(quests);
+        scroll_quests.setViewportView(quests_help_panel);
+        quests_help_panel.add(quests);
+        updateQuestList();
 
         // inicializace karty Projects
         ProjectsTableModel2 tableOfProjects2 = new ProjectsTableModel2();
@@ -157,6 +152,7 @@ public class MainWindow extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         scroll_quests = new javax.swing.JScrollPane();
+        quests_help_panel = new javax.swing.JPanel();
         pane_projects = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_projects2 = new javax.swing.JTable();
@@ -218,6 +214,8 @@ public class MainWindow extends javax.swing.JFrame {
         jButton3.setText("Reject");
 
         jButton4.setText("Print");
+
+        scroll_quests.setViewportView(quests_help_panel);
 
         javax.swing.GroupLayout pane_questsLayout = new javax.swing.GroupLayout(pane_quests);
         pane_quests.setLayout(pane_questsLayout);
@@ -667,6 +665,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel pane_staff;
     private javax.swing.JPanel pane_tasks;
     private javax.swing.JPanel panel_user;
+    private javax.swing.JPanel quests_help_panel;
     private javax.swing.JScrollPane scroll_quests;
     private javax.swing.JLabel t_authorization;
     private javax.swing.JLabel t_name;
@@ -693,78 +692,20 @@ public class MainWindow extends javax.swing.JFrame {
         this.uma = new UserManagerAdminMock();
     }
 
-    private class QuestsPanel extends JPanel {
-        iTask [] model;
+    public void updateQuestList() throws RemoteException {
+        if(table_projects.getSelectedRow() == -1) table_projects.setRowSelectionInterval(0, 0);
+        l_projectName.setText((String) table_projects.getValueAt(table_projects.getSelectedRow(), 0));
 
-        public QuestsPanel() {
-            LayoutManager mgr = new GridLayout();
-            setLayout(mgr);
-        }
-
-        public void updateModel(iTask [] quests) {
-            this.model = quests;
-            update();
-        }
-
-        private void update() {
-            removeAll();
-
-            QuestsRow row;
-            String name = "", decription = "";
-            int progress = 0;
-            for (iTask task : model) {
-                //name = task.getName();
-                //description = task.getDescription();
-                //progress = task.getProgress();
-                row = new QuestsRow(name, decription, progress);
-                add(row);
-                add(new JSeparator());
+        Project selectedProject = ((ProjectsTableModel) table_projects.getModel()).getElemetAt(table_projects.getSelectedRow());
+        Task [] tasks = new TaskManagerMock().getAssingnedTasks(); /*usr.getTaskManager().getAssingnedTasks()*/
+        ArrayList<Task> selectedTasks = new ArrayList<Task>();
+        for (Task task : tasks) {
+            if(task.getProject().equals(selectedProject)) {
+                selectedTasks.add(task);
             }
         }
+        quests.updateModel(selectedTasks.toArray(new Task[0]));
     }
-
-
-    private class ProjectsTableModel extends AbstractTableModel {
-        private String[] columnNames = {"Project", "Priority"};
-        private Object[][] data;
-
-        public ProjectsTableModel(iUser usr) {
-            /*
-            try {
-                iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
-                for (iTask task : tasks) {
-                    // získat z úkolů projekty, ve kterých jsou zařazeny
-                }
-            } catch (RemoteException ex) {
-                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (nqException ex) {
-                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-            data = new Object[10][2];
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public int getRowCount() {
-            return data.length;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            return data[rowIndex].length;
-        }
-    }
-
 
     private class ProjectsTableModel2 extends AbstractTableModel {
         private String[] columnNames = {"Project", "Progress in %"};

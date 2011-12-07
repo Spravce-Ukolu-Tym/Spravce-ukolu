@@ -20,46 +20,53 @@ public class QuestsRow extends javax.swing.JPanel {
     private void initComponents() {
 
         l_name = new javax.swing.JLabel();
-        l_decription = new javax.swing.JLabel();
         progress = new javax.swing.JProgressBar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        l_decription = new javax.swing.JLabel();
 
-        l_name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        l_name.setFont(new java.awt.Font("Tahoma", 1, 14));
         l_name.setText("Name");
+
+        progress.setOrientation(1);
+        progress.setToolTipText("Progress");
 
         l_decription.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         l_decription.setText("<html>Description asdf asdf asdfasdfasdf asdaf asd fasf asf as fas f</html>");
         l_decription.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         l_decription.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         l_decription.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
-        progress.setOrientation(1);
-        progress.setToolTipText("Progress");
+        jScrollPane1.setViewportView(l_decription);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_name)
-                        .addGap(182, 182, 182))
-                    .addComponent(l_decription, 0, 0, Short.MAX_VALUE)))
+                    .addComponent(l_name)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(l_name)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(l_decription, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(l_name)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_decription;
     private javax.swing.JLabel l_name;
     private javax.swing.JProgressBar progress;
