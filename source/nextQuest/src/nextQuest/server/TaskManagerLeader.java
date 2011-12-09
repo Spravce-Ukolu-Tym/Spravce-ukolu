@@ -1,22 +1,17 @@
 package nextQuest.server;
 
 import java.rmi.RemoteException;
+import nextQuest.ifc.ProjectInfo;
+import nextQuest.ifc.iTask;
 import nextQuest.ifc.iTaskManagerLeader;
+import nextQuest.ifc.nqException;
 
 public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader {
     public TaskManagerLeader()  throws RemoteException
-    {}
+    {
+	super(null, null);
+    }
     
-    @Override
-    public Task[] getTasksByUser() {
-        return null;
-    }
-
-    @Override
-    public Task[] getTasksByProject() {
-        return null;
-    }
-
     @Override
     public void createTask() {
     }
@@ -31,5 +26,23 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
 
     @Override
     public void approveTask() {
+    }
+
+    @Override
+    public iTask[] getTasksByProject(ProjectInfo pi) throws RemoteException, nqException
+    {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public iTask[] getTasksByUser(UserInfo ui) throws RemoteException, nqException
+    {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public iTask[] getCreatedTasks() throws RemoteException, nqException
+    {
+	throw new UnsupportedOperationException("Not supported yet.");
     }
 }

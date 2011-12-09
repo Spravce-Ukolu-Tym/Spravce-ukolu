@@ -80,7 +80,7 @@ public class User extends UnicastRemoteObject  implements iUser {
 
     @Override
     public iTaskManager getTaskManager() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
