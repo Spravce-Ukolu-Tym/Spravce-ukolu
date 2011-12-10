@@ -20,6 +20,7 @@ import nextQuest.ifc.iRolePersonalist;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
+import nextQuest.mock.DatabaseMock;
 import nextQuest.mock.UserManagerAdminMock;
 import nextQuest.server.Ability;
 import nextQuest.server.User;
@@ -30,6 +31,7 @@ public class PersonForm extends javax.swing.JDialog {
     Frame parent;
     iUserManagerAdmin uma = null;
     UserInfo usrInf = null;
+    StaffControl staffControl = StaffControl.getInstance();
 
     /** Creates new form NewJDialog */
     public PersonForm(java.awt.Frame parent, boolean modal, iUserManagerAdmin uma, UserInfo usrInf) throws RemoteException {
@@ -44,12 +46,32 @@ public class PersonForm extends javax.swing.JDialog {
         initializeAblities();
 
         if(usrInf != null) {
-            t_login.setText(usrInf.getLoginName());
-            t_name.setText(usrInf.getName());
-            c_leader.setSelected(usrInf.getPermissionLeader());
-            c_personalist.setSelected(usrInf.getPermissionPersonalist());
-            // TODO nastavení abilit
-            generatePassword();
+            try {
+                t_login.setText(usrInf.getLoginName());
+                t_name.setText(usrInf.getName());
+                c_leader.setSelected(usrInf.getPermissionLeader());
+                c_personalist.setSelected(usrInf.getPermissionPersonalist());
+                // nastavení abilit
+                Ability[] abs = uma.listAbilitiesByUser(new User(usrInf.getID(), usrInf.getLoginName(), usrInf.getLoginName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null));
+                if (abs.length > 3) {
+                    for (int i = 0; i < abs.length - 3; i++) {
+                        addAbilityRow();
+                    }
+                }
+                Ability[] all = uma.listAblities();
+                for (int i = 0; i < abs.length; i++) {
+                    for (int j = 0; j < all.length; j++) {
+                        if (all[j].equals(abs[i])) {
+                            ((AbilitiesRow) p_abilities.getComponent(i)).getComboAbilityName().setSelectedIndex(j + 1);
+                            break;
+                        }
+                    }
+                    ((AbilitiesRow) p_abilities.getComponent(i)).getComboAbilityLevel().setSelectedIndex(abs[i].getLevel() - 1); // -1 kvůli první položce v comboboxu ("none")
+                }
+                generatePassword();
+            } catch (nqException ex) {
+                Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -245,60 +267,31 @@ public class PersonForm extends javax.swing.JDialog {
 
     private void b_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_saveActionPerformed
         try {
-            if(t_name.getText().length() < 3 || t_name.getText().length() > 40) {
-                JOptionPane.showMessageDialog(null, "Length of a name must be between 3 and 40 characters...", "Input error", JOptionPane.ERROR_MESSAGE);
-                return;
-            } else if (t_login.getText().length() < 3 || t_login.getText().length() > 20) {
-                JOptionPane.showMessageDialog(null, "Length of a login must be between 3 and 20 characters...", "Input error", JOptionPane.ERROR_MESSAGE);
-                return;
-            } else if (t_password.getText().length() < 3 || t_login.getText().length() > 10) {
-                JOptionPane.showMessageDialog(null, "Length of a password must be between 3 and 10 characters...", "Input error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if(usrInf == null) {
-                uma.createUser(t_login.getText(), t_name.getText(), Static.MD5(t_password.getText()), c_leader.isSelected(), c_personalist.isSelected());
-            } else {
-                User u = new User(usrInf.getID(), usrInf.getLoginName(), usrInf.getName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null);
-                uma.editUser(u, t_login.getText(), t_name.getText(), Static.MD5(t_password.getText()), c_personalist.isSelected(), c_leader.isSelected());
-            }
-            // nastavení schopností uživateli
+            // zjisteni vybranych schopnosti
             ArrayList<Ability> abilities = new ArrayList<Ability>();
             for(int i=0; i<p_abilities.getComponentCount(); i++) {
                 Ability a = ((AbilitiesRow) p_abilities.getComponent(i)).getSelectedAbility();
                 if(a != null) abilities.add(a);
             }
-            // zjištění posledního přidaného pomocí nejvyššího ID
-            List<UserInfo> users = (List<UserInfo>) Arrays.asList(uma.listAllUsers());
-            Collections.sort(users, new Comparator<UserInfo>(){
-                @Override
-                public int compare(UserInfo o1, UserInfo o2) {
-                    return o2.getID()-o1.getID(); // seřazení podle ID sestupně
-                }
-            });
-            UserInfo usrInf = users.get(0);
-            iUser usr = new User(usrInf.getID(),
-                    usrInf.getName(),
-                    usrInf.getLoginName(),
-                    usrInf.getPermissionAdmin(),
-                    usrInf.getPermissionLeader(),
-                    usrInf.getPermissionPersonalist(),
-                    null);
-            uma.updateUserAbilities(usr, abilities.toArray(new Ability[0]));
+
+            if(usrInf == null) {
+                staffControl.addPerson(t_login.getText(), t_name.getText(), t_password.getText(), c_leader.isSelected(), c_personalist.isSelected(), abilities.toArray(new Ability[0]));
+            } else {
+                iUser u = new User(usrInf.getID(), usrInf.getName(), usrInf.getLoginName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null);
+                staffControl.changePerson(u, t_login.getText(), t_name.getText(), t_password.getText(), c_leader.isSelected(), c_personalist.isSelected(), abilities.toArray(new Ability[0]));
+            }
 
             dispose();
         } catch (RemoteException ex) {
             Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (nqException ex) {
-            Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException nse) {
-            System.out.println("Java sux!");
+        } catch (WrongInputException ex) {
+            JOptionPane.showMessageDialog(null, ex.getDescription(), "Input error", JOptionPane.ERROR_MESSAGE);
         }
 }//GEN-LAST:event_b_saveActionPerformed
 
     private void b_ability_editorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ability_editorActionPerformed
-        AbilityEditor abilityEditor = new AbilityEditor(parent, true, uma);
         try {
+            AbilityEditor abilityEditor = new AbilityEditor(parent, true, uma);
             initializeAblities();
         } catch (RemoteException ex) {
             Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -325,12 +318,7 @@ public class PersonForm extends javax.swing.JDialog {
     }//GEN-LAST:event_c_generate_passwordItemStateChanged
 
     private void b_add_abilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_add_abilityActionPerformed
-        try {
-            p_abilities.add(new AbilitiesRow(uma));
-        } catch (RemoteException ex) {
-            Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        p_abilities.updateUI();
+        addAbilityRow();
     }//GEN-LAST:event_b_add_abilityActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -375,6 +363,15 @@ public class PersonForm extends javax.swing.JDialog {
                 p_abilities.add(new AbilitiesRow(uma));
             }
         }
+    }
+
+    private void addAbilityRow() {
+        try {
+            p_abilities.add(new AbilitiesRow(uma));
+        } catch (RemoteException ex) {
+            Logger.getLogger(PersonForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        p_abilities.updateUI();
     }
 
 }

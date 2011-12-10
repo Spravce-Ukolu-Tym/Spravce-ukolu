@@ -17,5 +17,7 @@ public interface iUserManagerAdmin extends iUserManager
     void removeAbility(Ability a) throws RemoteException, nqException;
 
     void removeUser(iUser usr) throws RemoteException, nqException;
+
+    Ability[] listAbilitiesByUser(iUser usr) throws RemoteException, nqException;
     
 }

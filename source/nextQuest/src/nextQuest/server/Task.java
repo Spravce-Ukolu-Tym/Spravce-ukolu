@@ -5,7 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import nextQuest.ifc.*;
 import java.util.Date;
 
-public class Task  extends UnicastRemoteObject implements iTask {
+public class Task  extends UnicastRemoteObject implements iTask, Comparable<Task> {
     private Date CreaitonDate;
     private String Description;
     private Integer MaxHours;
@@ -97,6 +97,11 @@ public class Task  extends UnicastRemoteObject implements iTask {
     @Override
     public String getName() {
         return Name;
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        return CreaitonDate.compareTo(o.getCreaitonDate());
     }
 }
 

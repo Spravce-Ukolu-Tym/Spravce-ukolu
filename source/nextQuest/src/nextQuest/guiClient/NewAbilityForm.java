@@ -10,14 +10,17 @@ import javax.swing.JOptionPane;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
 import nextQuest.server.Ability;
+import nextQuest.server.UserManagerAdmin;
 
 public class NewAbilityForm extends javax.swing.JDialog {
-    iUserManagerAdmin uma;
+    private iUserManagerAdmin uma;
+    private AbilityControl abilityControl;
 
     /** Creates new form AbilityForm */
     public NewAbilityForm(java.awt.Frame parent, boolean modal, iUserManagerAdmin uma) {
         super(parent, modal);
         this.uma = uma;
+        abilityControl = AbilityControl.getInstance();
 
         initComponents();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -102,23 +105,24 @@ public class NewAbilityForm extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String name = t_name.getText();
         String description = t_description.getText();
-       
-        if(name.length() < 3 || name.length() > 20) {
-            JOptionPane.showMessageDialog(null, "Length of a name must be between 3 and 20 characters...", "Input error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (description.length() < 3 || description.length() > 250) {
-            JOptionPane.showMessageDialog(null, "Length of a description must be between 3 and 250 characters...", "Input error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         try {
-            uma.createAbility(new Ability(t_name.getText(), t_description.getText(), 666)); // na levelu zde nezáleží
+            abilityControl.addAbility(name, description);
+            dispose();
         } catch (RemoteException ex) {
             Logger.getLogger(NewAbilityForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (nqException ex) {
-            Logger.getLogger(NewAbilityForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WrongInputException ex) {
+            JOptionPane.showMessageDialog(null, ex.getDescription(), "Input error", JOptionPane.ERROR_MESSAGE);
         }
-        dispose();
+
+
+                /*
+        try {
+            if(abilityControl.addAbility(name, description)) {
+                dispose();
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(NewAbilityForm.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,12 +6,20 @@ import nextQuest.server.Ability;
 class UserAbilitiesMock {
     private int idUser;
     private Ability ability;
-    private int level;
 
-    public UserAbilitiesMock(int idUser, Ability ability, int level) {
+    public UserAbilitiesMock(int idUser, Ability ability) {
         this.idUser = idUser;
         this.ability = ability;
-        this.level = level;
     }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public Ability getAbility() {
+        return ability;
+    }
+
+    
 
 }

@@ -1,7 +1,6 @@
 package nextQuest.guiClient;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,20 +8,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManager;
 import nextQuest.ifc.nqException;
 import nextQuest.mock.UserManagerAdminMock;
-import nextQuest.server.User;
 import nextQuest.server.UserInfo;
 
 public class StaffTableModel extends AbstractTableModel {
     private String[] columnNames = {"Name", "Rating", "Abilities", "Projects"};
     private UserInfo [] users;
-    private iUserManager uma;
 
-    public StaffTableModel(iUserManager uma) throws RemoteException {
-        this.uma = new UserManagerAdminMock(); //this.uma = uma;
-        updateContent();
+    public StaffTableModel(UserInfo [] users) throws RemoteException {
+        updateContent(users);
     }
 
     @Override
@@ -60,21 +57,15 @@ public class StaffTableModel extends AbstractTableModel {
         return users[rowIndex];
     }
 
-    public void updateContent() throws RemoteException {
-        try {
-            UserInfo [] unsorted = uma.listAllUsers();
-            List<UserInfo> sorted = (List<UserInfo>) Arrays.asList(unsorted);
-            Collections.sort(sorted, new Comparator<UserInfo>() {
-                @Override
-                public int compare(UserInfo o1, UserInfo o2) {
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
-            users = sorted.toArray(new UserInfo[0]);
-            //users = uma.listAllUsers();
-        } catch (nqException ex) {
-            Logger.getLogger(StaffTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void updateContent(UserInfo [] unsorted) throws RemoteException {
+        List<UserInfo> sorted = (List<UserInfo>) Arrays.asList(unsorted);
+        Collections.sort(sorted, new Comparator<UserInfo>() {
+            @Override
+            public int compare(UserInfo o1, UserInfo o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        this.users = sorted.toArray(new UserInfo[0]);
     }
 
 }

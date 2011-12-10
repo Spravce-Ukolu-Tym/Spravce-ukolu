@@ -1,5 +1,6 @@
 package nextQuest.guiClient;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
@@ -34,6 +35,8 @@ public class MainWindow extends javax.swing.JFrame {
     private iRolePersonalist rper = null;
 
     private iUserManagerAdmin uma = null;
+    private StaffControl staffControl;
+    private QuestsControl questsControl;
     QuestsPanel quests = new QuestsPanel();
 
     /** Creates new form NewJFrame */
@@ -97,7 +100,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
 	
         // inicializace karty Quests
-        ProjectsTableModel tableOfProjects = new ProjectsTableModel(usr);
+        questsControl = QuestsControl.getInstance();
+        ProjectsTableModel tableOfProjects = new ProjectsTableModel(new TaskManagerMock().getAssingnedTasks()/*usr.getTaskManager().getAssingnedTasks()*/);
         table_projects.setModel(tableOfProjects);
         table_projects.updateUI();
         table_projects.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -110,7 +114,6 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         });
-        //scroll_quests.setViewportView(quests);
         scroll_quests.setViewportView(quests_help_panel);
         quests_help_panel.add(quests);
         updateQuestList();
@@ -120,9 +123,15 @@ public class MainWindow extends javax.swing.JFrame {
         table_projects2.setModel(tableOfProjects2);
 
         // inicializace karty Staff
-        StaffTableModel tableOfStaff = new StaffTableModel(uma);
-        table_staff.setModel(tableOfStaff);
-        table_staff.setRowSelectionInterval(0, 0);
+        StaffTableModel tableOfStaff;
+        try {
+            tableOfStaff = new StaffTableModel(uma.listAllUsers());
+            staffControl = StaffControl.getInstance(uma, tableOfStaff);
+            table_staff.setModel(tableOfStaff);
+            table_staff.setRowSelectionInterval(0, 0);
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         setVisible(true);
        }
@@ -148,8 +157,8 @@ public class MainWindow extends javax.swing.JFrame {
         table_projects = new javax.swing.JTable();
         l_projectName = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        b_return_task = new javax.swing.JButton();
+        b_reject_task = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         scroll_quests = new javax.swing.JScrollPane();
         quests_help_panel = new javax.swing.JPanel();
@@ -209,12 +218,23 @@ public class MainWindow extends javax.swing.JFrame {
 
         l_projectName.setText("ProjectName");
 
-        jButton2.setText("Accept");
+        b_return_task.setText("Return");
+        b_return_task.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_return_taskActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Reject");
+        b_reject_task.setText("Reject");
+        b_reject_task.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_reject_taskActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Print");
 
+        quests_help_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         scroll_quests.setViewportView(quests_help_panel);
 
         javax.swing.GroupLayout pane_questsLayout = new javax.swing.GroupLayout(pane_quests);
@@ -226,14 +246,14 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pane_questsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
                     .addComponent(l_projectName)
-                    .addComponent(scroll_quests, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+                    .addComponent(scroll_quests, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pane_questsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(b_return_task, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(b_reject_task, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pane_questsLayout.setVerticalGroup(
@@ -249,9 +269,9 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(16, 16, 16)
                         .addGroup(pane_questsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pane_questsLayout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(b_return_task)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
+                                .addComponent(b_reject_task)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4))
                             .addComponent(scroll_quests, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))))
@@ -292,7 +312,7 @@ public class MainWindow extends javax.swing.JFrame {
             pane_projectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pane_projectsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pane_projectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -362,7 +382,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(jButton13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton12))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11)))
                 .addContainerGap())
@@ -432,7 +452,7 @@ public class MainWindow extends javax.swing.JFrame {
             pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pane_staffLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pane_staffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(b_add_new_person, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -500,7 +520,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addGap(91, 91, 91)
                             .addComponent(p_old_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
         panel_userLayout.setVerticalGroup(
             panel_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,17 +575,14 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             int selectedRow = table_staff.getSelectedRow();
             UserInfo usrInf = ((StaffTableModel) table_staff.getModel()).getElementAt(selectedRow);
-            iUser user = new User(usrInf.getID(), usrInf.getLoginName(), usrInf.getName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null);
-            try {
-                uma.removeUser(user);
-                ((StaffTableModel)table_staff.getModel()).updateContent();
-                table_staff.updateUI();
-                if(table_staff.getSelectedRow()>=table_staff.getRowCount() && table_staff.getRowCount()!=0) {
-                    table_staff.setRowSelectionInterval(table_staff.getRowCount()-1, table_staff.getRowCount()-1);
-                }
-            } catch (nqException ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            iUser user = new User(usrInf.getID(), usrInf.getName(), usrInf.getLoginName(), usrInf.getPermissionAdmin(), usrInf.getPermissionLeader(), usrInf.getPermissionPersonalist(), null);
+
+            staffControl.removePerson(user);
+            table_staff.updateUI();
+            if(table_staff.getSelectedRow()>=table_staff.getRowCount() && table_staff.getRowCount()!=0) {
+                table_staff.setRowSelectionInterval(table_staff.getRowCount()-1, table_staff.getRowCount()-1);
             }
+ 
         } catch (RemoteException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -574,40 +591,20 @@ public class MainWindow extends javax.swing.JFrame {
     private void b_add_new_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_add_new_personActionPerformed
         try {
             PersonForm newPersonForm = new PersonForm(this, true, uma, null);
+            table_staff.updateUI();
         } catch (RemoteException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ((StaffTableModel) table_staff.getModel()).updateContent();
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ((StaffTableModel) table_staff.getModel()).updateContent();
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        table_staff.updateUI();
+        }   
     }//GEN-LAST:event_b_add_new_personActionPerformed
 
     private void b_edit_personActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_edit_personActionPerformed
         try {
             PersonForm newPersonForm = new PersonForm(this, true, uma,
                     ((StaffTableModel) table_staff.getModel()).getElementAt(table_staff.getSelectedRow()));
+            table_staff.updateUI();
         } catch (RemoteException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ((StaffTableModel) table_staff.getModel()).updateContent();
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ((StaffTableModel) table_staff.getModel()).updateContent();
-        } catch (RemoteException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        table_staff.updateUI();
+        }  
     }//GEN-LAST:event_b_edit_personActionPerformed
 
     private void b_change_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_change_passwordActionPerformed
@@ -622,19 +619,36 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void b_return_taskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_return_taskActionPerformed
+        questsControl.returnTask(quests.getSelectedTask());
+    }//GEN-LAST:event_b_return_taskActionPerformed
+
+    private void b_reject_taskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_reject_taskActionPerformed
+        String reason;
+        do {
+            try {
+                reason = JOptionPane.showInputDialog(null, "Input your reason for rejecting this task:", "Task reject", JOptionPane.OK_CANCEL_OPTION | JOptionPane.INFORMATION_MESSAGE);
+                questsControl.reject(quests.getSelectedTask(), reason);
+                break;
+            } catch (WrongInputException ex) {
+                JOptionPane.showMessageDialog(null, ex.getDescription() ,"No reason inputed", JOptionPane.WARNING_MESSAGE);
+            }
+        } while(true);
+    }//GEN-LAST:event_b_reject_taskActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_add_new_person;
     private javax.swing.JButton b_change_password;
     private javax.swing.JButton b_delete_person;
     private javax.swing.JButton b_edit_person;
+    private javax.swing.JButton b_reject_task;
+    private javax.swing.JButton b_return_task;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;

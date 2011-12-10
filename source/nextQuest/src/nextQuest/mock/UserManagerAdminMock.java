@@ -51,10 +51,14 @@ public class UserManagerAdminMock implements iUserManagerAdmin {
     @Override
     public void updateUserAbilities(iUser usr, Ability[] abs) throws RemoteException
     {
+        // vymazání původních - blbne
+        HashSet<UserAbilitiesMock> uabs = DatabaseMock.getUserAbilities();
+        DatabaseMock.getUserAbilities().removeAll(uabs);
+
+        // vložení nových
         for (Ability ability : abs) {
-            System.out.println(ability);
             try {
-                DatabaseMock.getUserAbilities().add(new UserAbilitiesMock(usr.getID(), ability, ability.getLevel()));
+                DatabaseMock.getUserAbilities().add(new UserAbilitiesMock(usr.getID(), ability));
             } catch (nqException ex) {
                 Logger.getLogger(UserManagerAdminMock.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,5 +86,16 @@ public class UserManagerAdminMock implements iUserManagerAdmin {
     public Ability[] listAblities() throws RemoteException, nqException {
         HashSet<Ability> abilities = DatabaseMock.getAbilities();
         return abilities.toArray(new Ability[0]);
+    }
+
+    @Override
+    public Ability[] listAbilitiesByUser(iUser usr) throws RemoteException, nqException {
+        HashSet<Ability> abs = new HashSet<Ability>();
+        HashSet<UserAbilitiesMock> data = DatabaseMock.getUserAbilities();
+        for (UserAbilitiesMock d : data) {
+            System.out.println(d.getIdUser()+" "+usr.getID());
+            if(d.getIdUser()==usr.getID()) abs.add(d.getAbility());
+        }
+        return abs.toArray(new Ability[0]);
     }
 }

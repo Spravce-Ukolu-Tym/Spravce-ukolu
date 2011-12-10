@@ -14,7 +14,7 @@ import nextQuest.ifc.*;
 
 public class nextQuestClient
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws RemoteException
     {
         ConnectingInformer inf = new ConnectingInformer();
         inf.setVisible(true);
@@ -63,10 +63,6 @@ public class nextQuestClient
         } catch (MalformedURLException ex) {
             inf.setVisible(false);
             JOptionPane.showMessageDialog(null, "Malformed URL..", "Error", JOptionPane.ERROR_MESSAGE, null);
-            Logger.getLogger(nextQuestClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            inf.setVisible(false);
-            JOptionPane.showMessageDialog(null, "Remote exception..", "Error", JOptionPane.ERROR_MESSAGE, null);
             Logger.getLogger(nextQuestClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

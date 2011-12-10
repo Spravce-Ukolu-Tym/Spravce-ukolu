@@ -17,10 +17,8 @@ public class ProjectsTableModel extends AbstractTableModel {
         private String[] columnNames = {"Project", "Priority"};
         private ArrayList<Project> projects = new ArrayList<Project>();
 
-        public ProjectsTableModel(iUser usr) throws RemoteException {
+        public ProjectsTableModel(iTask [] tasks) throws RemoteException {
             try {
-                iTask[] tasks = new TaskManagerMock().getAssingnedTasks();
-                // iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
                 for (iTask task : tasks) {
                     if(!projects.contains(task.getProject())) projects.add(task.getProject());   // získat z úkolů projekty, ve kterých jsou zařazeny
                 }

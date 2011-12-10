@@ -1,13 +1,30 @@
 package nextQuest.guiClient;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import nextQuest.server.Task;
+
 public class QuestsRow extends javax.swing.JPanel {
+    private Task task;
 
     /** Creates new form QuestsRow */
-    public QuestsRow(String name, String decription, int progress) {
+    public QuestsRow(final Task task) {
         initComponents();
-        l_name.setText(name);
-        l_decription.setText(decription);
-        this.progress.setValue(progress);
+        this.task = task;
+        l_name.setText(task.getName());
+        l_decription.setText(task.getDescription());
+        this.progress.setValue(task.getPercentage());
+
+        if(!task.getIsSubtask()) {
+            jPanel1.setVisible(false);
+        }
+
+        registerMouseListener();
     }
 
     /** This method is called from within the constructor to
@@ -23,12 +40,24 @@ public class QuestsRow extends javax.swing.JPanel {
         progress = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         l_decription = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+
+        addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
+            public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
+            }
+            public void ancestorResized(java.awt.event.HierarchyEvent evt) {
+                formAncestorResized(evt);
+            }
+        });
 
         l_name.setFont(new java.awt.Font("Tahoma", 1, 14));
         l_name.setText("Name");
 
         progress.setOrientation(1);
         progress.setToolTipText("Progress");
+
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setHorizontalScrollBar(null);
 
         l_decription.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         l_decription.setText("<html>Description asdf asdf asdfasdfasdf asdaf asd fasf asf as fas f</html>");
@@ -37,39 +66,83 @@ public class QuestsRow extends javax.swing.JPanel {
         l_decription.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         jScrollPane1.setViewportView(l_decription);
 
+        jPanel1.setOpaque(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 19, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 76, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(l_name)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_name)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(l_name)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formAncestorResized(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorResized
+        updateSize();
+    }//GEN-LAST:event_formAncestorResized
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_decription;
     private javax.swing.JLabel l_name;
     private javax.swing.JProgressBar progress;
     // End of variables declaration//GEN-END:variables
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void updateSize() {
+        int width = getParent().getParent().getParent().getWidth()-10;
+        if(width < 324) width = 324;
+
+        setPreferredSize(new Dimension(width, 87));
+        updateUI();
+    }
+
+    public void registerMouseListener() {
+        MouseListener ml = new QuestsMouseAdapter(this);
+        addMouseListener(ml);
+        Component [] components = getComponents();
+        if(components == null) return;
+        for (Component component : components) {
+            component.addMouseListener(ml);
+            component.addMouseMotionListener((MouseMotionListener) ml);
+        }
+    }
 }

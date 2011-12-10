@@ -16,19 +16,25 @@ import nextQuest.ifc.nqException;
 import nextQuest.server.Ability;
 
 public class AbilityEditor extends javax.swing.JDialog {
-    Frame parent;
-    iUserManagerAdmin uma;
+    private Frame parent;
+    private iUserManagerAdmin uma;
+    private AbilitiesListModel listModel;
+    private AbilityControl abilityControl;
 
     /** Creates new form AbilityEditor */
-    public AbilityEditor(java.awt.Frame parent, boolean modal, iUserManagerAdmin uma) {
+    public AbilityEditor(java.awt.Frame parent, boolean modal, iUserManagerAdmin uma) throws RemoteException {
         super(parent, modal);
         this.parent = parent;
         this.uma = uma;
+        try {
+            listModel = new AbilitiesListModel(uma.listAblities());
+        } catch (nqException ex) {
+            Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        abilityControl = AbilityControl.getInstance(uma, listModel);
 
         initComponents();
         // inicializace seznamu schopností
-        AbilitiesListModel listModel = null;
-        listModel = new AbilitiesListModel();
         list_abilities.setModel(listModel);
         if(((AbilitiesListModel) list_abilities.getModel()).getSize()>0) list_abilities.setSelectedIndex(0);
         updateAbilityDescription();
@@ -55,6 +61,7 @@ public class AbilityEditor extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         list_abilities = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
+        b_cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ability Editor");
@@ -99,6 +106,13 @@ public class AbilityEditor extends javax.swing.JDialog {
 
         jLabel1.setText("Abilities:");
 
+        b_cancel.setText("Cancel");
+        b_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_cancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,9 +125,10 @@ public class AbilityEditor extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(b_remove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(b_add_ability, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(b_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(b_remove, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(b_add_ability, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(51, 51, 51)
@@ -132,10 +147,11 @@ public class AbilityEditor extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(b_add_ability)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(b_remove))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)))
+                        .addComponent(b_remove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addComponent(b_cancel))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -144,7 +160,7 @@ public class AbilityEditor extends javax.swing.JDialog {
 
     private void b_add_abilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_add_abilityActionPerformed
         NewAbilityForm newAbilityForm = new NewAbilityForm(parent, true, uma);
-        ((AbilitiesListModel) list_abilities.getModel()).updateList();
+        list_abilities.updateUI();
         updateAbilityDescription();
 }//GEN-LAST:event_b_add_abilityActionPerformed
 
@@ -154,15 +170,25 @@ public class AbilityEditor extends javax.swing.JDialog {
 
     private void b_removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_removeActionPerformed
         if(((AbilitiesListModel) list_abilities.getModel()).getSize()<=0) {
-            JOptionPane.showMessageDialog(parent, "No ability selected!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(parent, "No ability to delete!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ((AbilitiesListModel) list_abilities.getModel()).removeAbility(list_abilities.getSelectedIndex());
+        try {
+            abilityControl.removeAbility(list_abilities.getSelectedIndex());
+            list_abilities.updateUI();
+        } catch (RemoteException ex) {
+            Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(((AbilitiesListModel) list_abilities.getModel()).getSize()>0) list_abilities.setSelectedIndex(((AbilitiesListModel) list_abilities.getModel()).getSize()-1);
     }//GEN-LAST:event_b_removeActionPerformed
 
+    private void b_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelActionPerformed
+        dispose();
+    }//GEN-LAST:event_b_cancelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_add_ability;
+    private javax.swing.JButton b_cancel;
     private javax.swing.JButton b_remove;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -178,50 +204,6 @@ public class AbilityEditor extends javax.swing.JDialog {
         l_description.setText("<html>"+abl.getDescription()+"</html>");
     }
 
-    final class AbilitiesListModel extends AbstractListModel {
-        private Set<Ability> abilityList = new HashSet<Ability>();
-
-        public AbilitiesListModel() {
-            updateList();
-        }
-
-        @Override
-        public int getSize() {
-            return abilityList.size();
-        }
-
-        @Override
-        public String getElementAt(int index) {
-            Ability abl = (Ability) abilityList.toArray()[index];
-            return abl.getName();
-        }
-
-        public Ability getAbility(int index) {
-            return (Ability) abilityList.toArray()[index];
-        }
-
-        public void updateList() {
-            try {
-                abilityList.removeAll(abilityList);
-                abilityList.addAll(Arrays.asList(uma.listAblities()));
-                list_abilities.updateUI();
-            } catch (RemoteException ex) {
-                Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (nqException ex) {
-                Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        public void removeAbility(int index) {
-            try {
-                uma.removeAbility(getAbility(index));
-            } catch (RemoteException ex) {
-                Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (nqException ex) {
-                Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            updateList();
-        }
-    }
+    
 
 }

@@ -3,6 +3,7 @@ package nextQuest.guiClient;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import nextQuest.ifc.iUserManager;
 import nextQuest.ifc.nqException;
 import nextQuest.server.Ability;
@@ -115,4 +116,11 @@ public class AbilitiesRow extends javax.swing.JPanel {
         }
     }
 
+    public JComboBox getComboAbilityName() {
+        return com_ability;
+    }
+
+    public JComboBox getComboAbilityLevel() {
+        return com_levels;
+    }
 }

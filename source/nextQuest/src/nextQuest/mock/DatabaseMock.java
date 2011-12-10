@@ -45,10 +45,18 @@ public class DatabaseMock {
             projectsTable.add(new Project(2, "NextQuest", null, null, 50));
 
             taskTable = new HashSet<Task>();
-            taskTable.add(new Task(new Date(2011, 12, 7), "Podel celeho domu.", 2, userTable.toArray(new User[0])[0], null, false, null, 20, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Zamet chodnik"));
-            taskTable.add(new Task(new Date(2011, 12, 7), "Nezapomen na to.", 2, userTable.toArray(new User[0])[0], null, false, null, 52, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Vymen zarovku"));
+            taskTable.add(new Task(new Date(2011, 12, 8), "Podel celeho domu.", 2, userTable.toArray(new User[0])[0], null, false, null, 20, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Zamet chodnik"));
+            taskTable.add(new Task(new Date(2011, 12, 6), "Nezapomen na to.", 2, userTable.toArray(new User[0])[0], null, false, null, 52, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Vymen zarovku"));
+            Task subTask1 = new Task(new Date(2011, 12, 7), "nejprve jedno.", 2, userTable.toArray(new User[0])[0], null, true, null, 10, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Pocitej 2");
+            Task subTask2 = new Task(new Date(2011, 12, 7), "poté i to druhé jedno.", 2, userTable.toArray(new User[0])[0], null, true, null, 10, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Pocitej 3");
+            Task [] arrayOfSubtasks = {subTask1, subTask2};
+            Task mainTask = new Task(new Date(2011, 12, 7), "Odecti 2 cisla.", 2, userTable.toArray(new User[0])[0], null, false, arrayOfSubtasks, 11, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Pocitej");
+            taskTable.add(mainTask);
             taskTable.add(new Task(new Date(2011, 12, 7), "Naprogramuj to a to a to rychle.", 2, userTable.toArray(new User[0])[0], null, false, null, 11, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[0], "Naprogramuj to a to"));
-            taskTable.add(new Task(new Date(2011, 12, 7), "A pak hned vstan a makej.", 2, userTable.toArray(new User[0])[0], null, false, null, 95, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[1], "Jdi spat"));
+            taskTable.add(new Task(new Date(2011, 12, 7), "A pak hned vstan a makej.", 2, userTable.toArray(new User[0])[0], null, false, null, 95, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[1], "Jdi spat"));  
+            taskTable.add(subTask2);
+            taskTable.add(subTask1);
+
         } catch (RemoteException ex) {
             Logger.getLogger(DatabaseMock.class.getName()).log(Level.SEVERE, null, ex);
         }

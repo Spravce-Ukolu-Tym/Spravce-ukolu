@@ -15,10 +15,12 @@ import nextQuest.ifc.nqException;
 public class LoginDialog extends javax.swing.JFrame {
     private iConnector mg;
     private iUser usr;
+    private LoginControl loginControl;
 
     /** Creates new form GUI_login */
     public LoginDialog(iConnector mg) {
         this.mg = mg;
+        this.loginControl = LoginControl.getInstance(mg);
         initComponents();
         initiaize();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -124,17 +126,14 @@ public class LoginDialog extends javax.swing.JFrame {
             for(int i=0; i<t_password.getPassword().length; i++)
                 pswd += t_password.getPassword()[i];
             long sid = mg.createLoginSession();
-            String salt = mg.getPasswordSalt(sid);
-            pswd = Static.MD5(Static.MD5(pswd).concat(salt));
-	    usr = mg.Login(sid, t_login.getText(), pswd);
+
+            usr = loginControl.login(sid, t_login.getText(), pswd);
 
             setVisible(false);
-            MainWindow main =new MainWindow(this, usr);
+            MainWindow main = new MainWindow(this, usr);
             pswd = "";
             initiaize();
-	} catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+	} catch (RemoteException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch(nqException e) {
             l_info.setForeground(Color.red);
