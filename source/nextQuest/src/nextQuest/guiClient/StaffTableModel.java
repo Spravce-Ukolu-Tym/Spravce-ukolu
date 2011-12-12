@@ -1,25 +1,25 @@
 package nextQuest.guiClient;
 
+import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import nextQuest.ifc.iUser;
+import nextQuest.ifc.iUserManager;
+import nextQuest.ifc.nqException;
+import nextQuest.mock.UserManagerAdminMock;
+import nextQuest.server.UserInfo;
 
 public class StaffTableModel extends AbstractTableModel {
-    private String[] columnNames = {"Name", "Rating", "Abilities", "Projetcs"};
-    private Object[][] data;
+    private String[] columnNames = {"Name", "Rating", "Abilities", "Projects"};
+    private UserInfo [] users;
 
-    public StaffTableModel() {
-        /*
-        try {
-            iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
-            for (iTask task : tasks) {
-                // získat z úkolů projekty, ve kterých jsou zařazeny
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (nqException ex) {
-            Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
-        data = new Object[10][2];
+    public StaffTableModel(UserInfo [] users) throws RemoteException {
+        updateContent(users);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class StaffTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return data.length;
+        return users.length;
     }
 
     @Override
@@ -38,8 +38,34 @@ public class StaffTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        return data[rowIndex].length;
+    public String getValueAt(int rowIndex, int columnIndex) {
+        String columnName = columnNames[columnIndex]; // pro přehlednost
+        if(columnName.equals("Name")) {
+            return users[rowIndex].getName();
+        } else if(columnName.equals("Rating")) {
+            return "rating";
+        } else if(columnName.equals("Abilities")) {
+            return "abilities";
+        } else if(columnName.equals("Projects")) {
+            return "projects";
+        } else {
+            return "error value";
+        }
+    }
+
+    public UserInfo getElementAt(int rowIndex) {
+        return users[rowIndex];
+    }
+
+    public void updateContent(UserInfo [] unsorted) throws RemoteException {
+        List<UserInfo> sorted = (List<UserInfo>) Arrays.asList(unsorted);
+        Collections.sort(sorted, new Comparator<UserInfo>() {
+            @Override
+            public int compare(UserInfo o1, UserInfo o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        this.users = sorted.toArray(new UserInfo[0]);
     }
 
 }

@@ -2,146 +2,178 @@ package nextQuest.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import nextQuest.ifc.*;
 import java.util.Date;
 
-public class Task implements iTask  
+public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 {
 
     private int idTask;
     private int idProject;
     private int idUserCreatedBy;
-    
     private Date DeadlineDate;
-    
     private Date CreationDate;
     private String Description;
     private int MaxHours;
     private boolean isSubtask;
-
     private int Priority;
     private String Title;
     private eTaskStatus Status;
-    
-    
-    /* tohle tu nebude (to se bude ziskavat z DB*/
-    private Task[] Subtasks;
-    private Ability[] NecessaryAbilities;
+    private String Name;
+    Connection con;
 
-    
-    
-    public Task(int idTask, int idProject, int idUserCreatedBy, Date DeadlineDate, 
-		Date CreationDate, String Description, int MaxHours, boolean isSubtask, 
+    public Task(Connection con, int idTask, int idProject, int idUserCreatedBy, Date DeadlineDate,
+		Date CreationDate, String Description, int MaxHours, boolean isSubtask,
 		int Priority, String Title, eTaskStatus Status) throws RemoteException, nqException
     {
+	this.con = con;
+
 	this.idTask = idTask;
 	this.idProject = idProject;
 	this.idUserCreatedBy = idUserCreatedBy;
 	this.DeadlineDate = DeadlineDate;
-	this.CreationDate= CreationDate;
+	this.CreationDate = CreationDate;
 	this.Description = Description;
 	this.MaxHours = MaxHours;
 	this.isSubtask = isSubtask;
 	this.Priority = Priority;
-	this.Title= Title;
+	this.Title = Title;
 	this.Status = Status;
-	
+
     }
-    
-    
-    
+
     @Override
     public void accept() throws RemoteException, nqException
     {
-	
     }
-    
+
     @Override
-    public void reject(String Reason)throws RemoteException, nqException
+    public void reject(String Reason) throws RemoteException, nqException
     {
     }
 
-   
     @Override
-    public void returnTask()throws RemoteException, nqException
+    public void returnTask() throws RemoteException, nqException
     {
     }
 
-    
-    @Override
-    public ProjectInfo getProjectInfo()throws RemoteException, nqException
-    {
-	throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    int getID()throws RemoteException, nqException
+    int getID() throws RemoteException, nqException
     {
 	return idTask;
     }
 
     @Override
-    public UserInfo getCreatorInfo()throws RemoteException, nqException
+    public UserInfo getCreatorInfo() throws RemoteException, nqException
     {
-	return null;
+	return UserManager.getUserByID(this.idUserCreatedBy, this.con);
     }
 
     @Override
-    public Date getDeadlineDate()throws RemoteException, nqException
+    public Date getDeadlineDate() throws RemoteException, nqException
     {
 	return DeadlineDate;
     }
 
     @Override
-    public Date getCreationDate()throws RemoteException, nqException
+    public Date getCreationDate() throws RemoteException, nqException
     {
 	return CreationDate;
     }
 
     @Override
-    public String getDescription()throws RemoteException, nqException
+    public String getDescription() throws RemoteException, nqException
     {
 	return Description;
     }
 
     @Override
-    public Integer getMaxHours()throws RemoteException, nqException
+    public Integer getMaxHours() throws RemoteException, nqException
     {
 	return MaxHours;
     }
 
     @Override
-    public Boolean isSubtask()throws RemoteException, nqException
+    public Boolean isSubtask() throws RemoteException, nqException
     {
 	return isSubtask;
     }
 
     @Override
-    public Task[] getSubtasks()throws RemoteException, nqException
+    public iTask[] getSubtasks() throws RemoteException, nqException
     {
-	return Subtasks;
+	PreparedStatement stat;
+	try
+	{
+	    stat = this.con.prepareStatement("SELECT `idTask`, `idProject`, `idUserCreatedBy`, `idUserAssignedTo`, `idParentTask`, `TaskStatus`, `Title`,"
+		    + " `Description`, `Priority`, `CreationDate`, `DeadlineDate`, `MaxHours`, `isSubTask`, `Rating` "
+		    + "FROM Tasks WHERE isSubTask = 1 AND `idParentTask` = ? ");
+
+	    stat.setInt(1, this.idTask);
+
+	    return TaskManager.getTasks(stat, this.con);
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
     }
 
     @Override
-    public Ability[] getNecessaryAbilities()throws RemoteException, nqException
+    public Ability[] getNecessaryAbilities() throws RemoteException, nqException
     {
-	return NecessaryAbilities;
+	return null; //!--TODO--!MS!
     }
 
     @Override
-    public int getPriority()throws RemoteException, nqException
+    public int getPriority() throws RemoteException, nqException
     {
 	return Priority;
     }
 
     @Override
-    public String getTitle()throws RemoteException, nqException
+    public String getTitle() throws RemoteException, nqException
     {
 	return Title;
     }
 
     @Override
-    public eTaskStatus getStatus()throws RemoteException, nqException
+    public eTaskStatus getStatus() throws RemoteException, nqException
     {
 	return Status;
+    }
+
+    @Override
+    public Project getProjectInfo() throws nqException, RemoteException
+    {
+	try
+	{
+	    return Project.GetProjectByID(this.idProject, this.con);
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
+    }
+
+    @Override
+    public String getName() throws nqException, RemoteException
+    {
+	return Name;
+    }
+
+    @Override
+    public int compareTo(Task o) //nemuze mit nic extra co by "throws" 
+    {
+	try
+	{
+	    return CreationDate.compareTo(o.getCreationDate());
+	}
+	catch (Exception e)
+	{
+	    return -1; //co s tim?
+	}
     }
 }

@@ -37,16 +37,16 @@ public class UserManager extends UnicastRemoteObject implements iUserManager
 		    "SELECT idAbility, `Name`, `Description` FROM AbilityList");
 
 	    List<Ability> al = new ArrayList<Ability>();
-	    
-	    
+
+
 	    ResultSet rs = ps.executeQuery();
-	    while(rs.next())
+	    while (rs.next())
 	    {
 		al.add(new Ability(rs.getByte("idAbility"), rs.getString("Name"), rs.getString("Description")));
 	    }
-	    
+
 	    return al.toArray(new Ability[al.size()]);
-	
+
 	}
 	catch (SQLException e)
 	{
@@ -62,7 +62,7 @@ public class UserManager extends UnicastRemoteObject implements iUserManager
 	    PreparedStatement ps = this.con.prepareStatement(
 		    "SELECT idUser, LoginName, Name, permAdmin, permLeader, permPersonalist FROM Users");
 
-	    return getUserList(ps);
+	    return UserManager.getUserList(ps);
 	}
 	catch (SQLException e)
 	{
@@ -70,7 +70,33 @@ public class UserManager extends UnicastRemoteObject implements iUserManager
 	}
     }
 
-    private UserInfo[] getUserList(PreparedStatement sql) throws SQLException
+    static UserInfo getUserByID(int id, Connection con) throws nqException
+    {
+	try
+	{
+	    PreparedStatement ps = con.prepareStatement("SELECT `idUser`, `LoginName`, `Name`, `permAdmin`, `permLeader`, permPersonalist FROM Users WHERE `idUser` = ?");
+	    ps.setInt(1, id);
+	    UserInfo[] rt = getUserList(ps);
+	    if (rt.length == 1)
+	    {
+		return rt[0];
+	    }
+	    else if (rt.length == 0)
+	    {
+		throw new nqException(nqExceptionType.DBSoftError, "getUserByID found no user with this ID");
+	    }
+	    else
+	    {
+		throw new nqException(nqExceptionType.ServerError, "One ID, more users, zalgo is coming");
+	    }
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
+    }
+
+    static UserInfo[] getUserList(PreparedStatement sql) throws SQLException
     {
 	List<UserInfo> lu = new ArrayList<UserInfo>();
 	ResultSet rs = sql.executeQuery();
@@ -82,7 +108,7 @@ public class UserManager extends UnicastRemoteObject implements iUserManager
 	return lu.toArray(new UserInfo[lu.size()]);
     }
 
-    private UserInfo fillUserInfo(ResultSet rs) throws SQLException
+    private static UserInfo fillUserInfo(ResultSet rs) throws SQLException
     {
 	return new UserInfo(rs.getInt("iduser"),
 			    rs.getString("name"),

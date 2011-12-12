@@ -5,6 +5,7 @@
 package nextQuest.ifc;
 
 import java.rmi.*;
+import nextQuest.server.Project;
 import nextQuest.server.UserInfo;
 
 /**
@@ -22,7 +23,7 @@ public interface iTaskManagerLeader extends Remote
 
     void createTask() throws RemoteException, nqException;
 
-    iTask[] getTasksByProject(ProjectInfo pi) throws RemoteException, nqException;
+    iTask[] getTasksByProject(Project pi) throws RemoteException, nqException;
 
     iTask[] getTasksByUser(UserInfo ui) throws RemoteException, nqException;
 

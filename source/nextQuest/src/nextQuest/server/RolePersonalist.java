@@ -14,6 +14,6 @@ public class RolePersonalist extends PrivilegedRole implements iRolePersonalist 
     @Override
     public UserManagerAdmin getUserManagerAdmin() throws RemoteException, nqException
     {
-        return null;
+        return new UserManagerAdmin(this.con, this.user);
     }
 }

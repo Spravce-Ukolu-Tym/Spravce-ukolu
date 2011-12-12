@@ -53,4 +53,28 @@ public class Ability implements Serializable {
     {
 	return this.idability;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ability other = (Ability) obj;
+        if ((this.Name == null) ? (other.Name != null) : !this.Name.equals(other.Name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (this.Name != null ? this.Name.hashCode() : 0);
+        return hash;
+    }
+
+    
 }

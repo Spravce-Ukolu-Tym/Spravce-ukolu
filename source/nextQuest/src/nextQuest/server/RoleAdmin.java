@@ -20,12 +20,12 @@ public class RoleAdmin extends PrivilegedRole implements iRoleAdmin {
     @Override
     public iTaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException
     {
-        return null;
+        return new TaskManagerLeader(this.con, this.user);
     }
 
     @Override
     public iProjectManager getProjectManager() throws RemoteException, nqException
     {
-        return null;
+        return new ProjectManager(this.con, this.user);
     }
 }

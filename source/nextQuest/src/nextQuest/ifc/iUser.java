@@ -9,7 +9,8 @@ import nextQuest.server.Ability;
 
 public interface iUser extends Remote
 {
-
+    int getID() throws RemoteException, nqException;
+    
     Boolean getPermissionAdmin() throws RemoteException, nqException;
 
     Boolean getPermissionLeader() throws RemoteException, nqException;

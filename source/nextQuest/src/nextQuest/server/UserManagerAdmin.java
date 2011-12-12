@@ -133,4 +133,10 @@ public class UserManagerAdmin extends UserManager implements iUserManagerAdmin {
     {
 	throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public Ability[] listAbilitiesByUser(iUser usr) throws RemoteException, nqException
+    {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

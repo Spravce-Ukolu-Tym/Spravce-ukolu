@@ -15,11 +15,14 @@ import nextQuest.ifc.nqException;
 public class LoginDialog extends javax.swing.JFrame {
     private iConnector mg;
     private iUser usr;
+    private LoginControl loginControl;
 
     /** Creates new form GUI_login */
     public LoginDialog(iConnector mg) {
         this.mg = mg;
+        this.loginControl = LoginControl.getInstance(mg);
         initComponents();
+        initiaize();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screen.width/2-getWidth()/2, screen.height/2-getHeight()/2);
         getRootPane().setDefaultButton(b_login);
@@ -123,22 +126,14 @@ public class LoginDialog extends javax.swing.JFrame {
             for(int i=0; i<t_password.getPassword().length; i++)
                 pswd += t_password.getPassword()[i];
             long sid = mg.createLoginSession();
-            String salt = mg.getPasswordSalt(sid);
-            pswd = Static.MD5(Static.MD5(pswd).concat(salt));
-	    usr = mg.Login(sid, t_login.getText(), pswd);
+
+            usr = loginControl.login(sid, t_login.getText(), pswd);
 
             setVisible(false);
-            MainWindow main =new MainWindow(this, usr);
-            main.setVisible(true);
-            t_login.setText("");
-            t_password.setText("");
-            t_login.requestFocus();
-            l_info.setForeground(Color.BLACK);
-            l_info.setText("Please, log in..");
+            MainWindow main = new MainWindow(this, usr);
             pswd = "";
-	} catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+            initiaize();
+	} catch (RemoteException ex) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch(nqException e) {
             l_info.setForeground(Color.red);
@@ -159,4 +154,12 @@ public class LoginDialog extends javax.swing.JFrame {
     private javax.swing.JTextField t_login;
     private javax.swing.JPasswordField t_password;
     // End of variables declaration//GEN-END:variables
+
+    private void initiaize() {
+        t_login.setText("");
+        t_password.setText("");
+        t_login.requestFocus();
+        l_info.setForeground(Color.BLACK);
+        l_info.setText("Please, log in..");
+    }
 }

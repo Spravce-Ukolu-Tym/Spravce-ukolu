@@ -22,7 +22,15 @@ public class UserInfo implements Serializable
         
 	this.iduser = iduser;
     }
-    
+
+    /**
+     * @return the iduser
+     */
+    public int getID()
+    {
+	return iduser;
+    }
+
     /**
      * @return the Name
      */
@@ -102,6 +110,8 @@ public class UserInfo implements Serializable
     {
 	this.PermissionPersonalist = PermissionPersonalist;
     }
+
+
     
     
 }

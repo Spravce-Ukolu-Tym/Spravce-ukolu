@@ -5,6 +5,8 @@
 package nextQuest.ifc;
 
 import java.rmi.*;
+import nextQuest.server.Project;
+import nextQuest.server.UserInfo;
 
 /**
  *
@@ -12,6 +14,6 @@ import java.rmi.*;
  */
 public interface iProjectManager extends Remote
 {
-    void createProject() throws RemoteException, nqException;
-    
+    void createProject(String Name, UserInfo Leader) throws RemoteException, nqException;
+    Project[] listProjects() throws RemoteException, nqException;
 }

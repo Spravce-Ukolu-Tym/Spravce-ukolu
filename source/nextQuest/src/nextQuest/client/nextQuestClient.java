@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import nextQuest.ifc.*;
 import nextQuest.server.Ability;
+import nextQuest.server.Project;
 import nextQuest.server.UserInfo;
 
 public class nextQuestClient
@@ -108,34 +109,88 @@ public class nextQuestClient
 
 	}
 
-
-
-
-
-	//CreateAbilities(radmin);
-	//CreateFewUsers(radmin);
-	ListAbilities(radmin);
-	ListUsers(radmin);
-
-    }
-
-    private static void ListUsers(iRoleAdmin radmin) throws RemoteException
-    {
+	iUserManagerAdmin uma = null;
+	iTaskManagerLeader tml = null;
+	iProjectManager prm = null;
 	try
 	{
-	    iUserManagerAdmin uma = radmin.getUserManagerAdmin();
-	    UserInfo[] abs = uma.listAllUsers();
-
-	    for (UserInfo a : abs)
-	    {
-		System.out.printf("%s ('%s')\n", a.getName(), a.getLoginName());
-	    }
+	    if(radmin != null)
+		uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
+	    else if(rper != null)
+		uma = rper.getUserManagerAdmin();
+	    
+	    if(radmin != null)
+		prm = radmin.getProjectManager();
+	    
+	    
+	    if(radmin != null)
+		tml = radmin.getTaskManagerLeader();
+	    else if(rlead != null)
+		tml = radmin.getTaskManagerLeader();
 	}
 	catch (nqException e)
 	{
 	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
 	    return;
 	}
+
+
+
+
+	
+	//CreateAbilities(radmin);
+	//CreateFewUsers(uma);
+	//ListAbilities(radmin);
+	//ListUsers(uma, tml);
+	ListProjects(prm);
+	
+	
+    }
+    
+    private static void ListProjects(iProjectManager prm) throws RemoteException
+    {
+	try
+	{
+	    Project[] projs = prm.listProjects();
+	    
+	    for(Project pr : projs)
+	    {
+		System.out.printf("Project %s:\n  Leader: %s (%s)\n  Created by: %s (%s)\n", pr.getName(), pr.getLeader().getName(), pr.getLeader().getLoginName(), pr.getUserCreatedBy().getName(), pr.getUserCreatedBy().getLoginName());
+	    }
+	}
+	catch(nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;   
+	}
+    }
+    
+    private static void ListUsers(iUserManagerAdmin uma, iTaskManagerLeader tml) throws RemoteException
+    {
+	try
+	{
+	    UserInfo[] abs = uma.listAllUsers();
+	    
+	    for (UserInfo a : abs)
+	    {
+		System.out.printf("User: %s ('%s')\n", a.getName(), a.getLoginName());
+		
+		iTask [] tasks = tml.getTasksByUser(a);
+		for(iTask tsk : tasks)
+		{
+		    UserInfo creator = tsk.getCreatorInfo();
+		    System.out.printf("  Task: %s (%s) by %s (%s)\n", tsk.getTitle(), tsk.getDescription(), creator.getLoginName(), creator.getName());
+		}
+		
+	    }
+	}
+	catch(nqException e)
+	{
+	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+	    return;
+	}
+	    
+
     }
     private static void ListAbilities(iRoleAdmin radmin) throws RemoteException
     {
@@ -156,24 +211,19 @@ public class nextQuestClient
 	}
     }
 
-    private static void CreateFewUsers(iRoleAdmin radmin) throws RemoteException
+    private static void CreateFewUsers(iUserManagerAdmin uma) throws RemoteException
     {
-	iUserManagerAdmin uma;
+	if(uma == null){
+	    System.out.printf("!! uma = null !!"); return; }
+	
+	
 	try
 	{
-	    uma = radmin.getUserManagerAdmin(); // tak ziskat userManager pro adminy
-	}
-	catch (nqException e)
-	{
-	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
-	    return;
-	}
-
-	try
-	{
-	    uma.createUser("pepanov", "Pepa Novák", Static.MD5("heslo"), false, false);
+	    /*uma.createUser("pepanov", "Pepa Novák", Static.MD5("heslo"), false, false);
 	    uma.createUser("mychaso", "Mychal Soušek", Static.MD5("heslo"), false, true); //leader
-	    uma.createUser("lachike", "Lachim Kečuos", Static.MD5("heslo"), false, true); //leader
+	    uma.createUser("lachike", "Lachim Kečuos", Static.MD5("heslo"), false, true); //leader*/
+	    
+	    uma.createUser("vseleader", "Leader Všeho", Static.MD5("heslo"),true, false);
 
 	}
 	catch (nqException e)

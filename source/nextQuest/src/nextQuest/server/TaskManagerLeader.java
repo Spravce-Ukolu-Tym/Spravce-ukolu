@@ -1,15 +1,15 @@
 package nextQuest.server;
 
 import java.rmi.RemoteException;
-import nextQuest.ifc.ProjectInfo;
-import nextQuest.ifc.iTask;
-import nextQuest.ifc.iTaskManagerLeader;
-import nextQuest.ifc.nqException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import nextQuest.ifc.*;
 
 public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader {
-    public TaskManagerLeader()  throws RemoteException
+    public TaskManagerLeader(Connection con, User usr)  throws RemoteException
     {
-	super(null, null);
+	super(con, usr);
     }
     
     @Override
@@ -29,7 +29,7 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
     }
 
     @Override
-    public iTask[] getTasksByProject(ProjectInfo pi) throws RemoteException, nqException
+    public iTask[] getTasksByProject(Project pi) throws RemoteException, nqException
     {
 	throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -37,7 +37,21 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
     @Override
     public iTask[] getTasksByUser(UserInfo ui) throws RemoteException, nqException
     {
-	throw new UnsupportedOperationException("Not supported yet.");
+	PreparedStatement stat;
+	try
+	{
+	    stat = this.con.prepareStatement("SELECT `idTask`, `idProject`, `idUserCreatedBy`, `idUserAssignedTo`, `idParentTask`, `TaskStatus`, `Title`,"
+		    + " `Description`, `Priority`, `CreationDate`, `DeadlineDate`, `MaxHours`, `isSubTask`, `Rating` "
+		    + "FROM Tasks WHERE isSubTask = 0 AND idUserAssignedTo = ?");
+
+	    stat.setInt(1, ui.getID());
+
+	    return TaskManager.getTasks(stat, this.con);
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
     }
 
     @Override

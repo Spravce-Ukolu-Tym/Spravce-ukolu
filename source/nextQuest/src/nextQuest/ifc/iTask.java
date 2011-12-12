@@ -3,15 +3,11 @@ package nextQuest.ifc;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Date;
+import nextQuest.server.Project;
 
 import nextQuest.server.Ability;
-import nextQuest.server.Task;
 import nextQuest.server.UserInfo;
 
-/**
- *
- * @author suk
- */
 public interface iTask extends Remote
 {
 
@@ -31,11 +27,11 @@ public interface iTask extends Remote
 
     int getPriority() throws RemoteException, nqException;
 
-    ProjectInfo getProjectInfo() throws RemoteException, nqException;
+    Project getProjectInfo() throws RemoteException, nqException;
 
     eTaskStatus getStatus() throws RemoteException, nqException;
 
-    Task[] getSubtasks() throws RemoteException, nqException;
+    iTask[] getSubtasks() throws RemoteException, nqException;
 
     String getTitle() throws RemoteException, nqException;
 
@@ -44,5 +40,6 @@ public interface iTask extends Remote
     void reject(String Reason) throws RemoteException, nqException;
 
     void returnTask() throws RemoteException, nqException;
-    
+
+    String getName() throws RemoteException, nqException;
 }

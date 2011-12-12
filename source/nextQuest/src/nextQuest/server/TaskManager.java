@@ -15,8 +15,8 @@ import nextQuest.ifc.*;
 public class TaskManager extends UnicastRemoteObject implements iTaskManager
 {
 
-    private Connection con;
-    private User u;
+    protected Connection con;
+    protected User u;
 
     public TaskManager(Connection con, User u) throws RemoteException
     {
@@ -25,7 +25,7 @@ public class TaskManager extends UnicastRemoteObject implements iTaskManager
     }
 
     @Override
-    public Task[] getAssingnedTasks() throws nqException, RemoteException
+    public iTask[] getAssingnedTasks() throws nqException, RemoteException
     {
 	PreparedStatement stat;
 	try
@@ -36,7 +36,7 @@ public class TaskManager extends UnicastRemoteObject implements iTaskManager
 
 	    stat.setInt(1, this.u.getID());
 
-	    return getTasks(stat);
+	    return getTasks(stat, this.con);
 	}
 	catch (SQLException ex)
 	{
@@ -44,11 +44,11 @@ public class TaskManager extends UnicastRemoteObject implements iTaskManager
 	}
 
     }
-
-    static Task fillTask(ResultSet rs) throws SQLException, RemoteException, nqException
+    
+    static iTask fillTask(ResultSet rs, Connection con) throws SQLException, RemoteException, nqException
     {
-	return new Task(rs.getInt("idTask"), rs.getInt("idProject"), rs.getInt("idUserCreatedBy"), rs.getDate("DeadlineDate"), rs.getDate("CreationDate"),
-			rs.getString("Description"), rs.getInt("MaxHours"), rs.getByte("isSubtask") == 1, rs.getInt("Priority"), rs.getString("Title"), eTaskStatus.valueOf(rs.getString("TaskStatus")));
+	return new Task(con, rs.getInt("idTask"), rs.getInt("idProject"), rs.getInt("idUserCreatedBy"), rs.getDate("DeadlineDate"), rs.getDate("CreationDate"),
+			rs.getString("Description"), rs.getInt("MaxHours"), rs.getByte("isSubtask") == 1, rs.getInt("Priority"), rs.getString("Title"), eTaskStatus.valueOf(rs.getString("TaskStatus").toUpperCase()));
     }
 
     @Override
@@ -57,17 +57,17 @@ public class TaskManager extends UnicastRemoteObject implements iTaskManager
 	throw new UnsupportedOperationException("NetusimKCemuTotoByloZamyslenoException()");
     }
 
-    static Task[] getTasks(PreparedStatement stat) throws SQLException, RemoteException, nqException
+    static iTask[] getTasks(PreparedStatement stat, Connection con) throws SQLException, RemoteException, nqException
     {
-	List<Task> tl = new ArrayList<Task>();
+	List<iTask> tl = new ArrayList<iTask>();
 
 	ResultSet rs = stat.executeQuery();
 	while (rs.next())
 	{
-	    tl.add(fillTask(rs));
+	    tl.add(fillTask(rs, con));
 	}
 
 
-	return tl.toArray(new Task[tl.size()]);
+	return tl.toArray(new iTask[tl.size()]);
     }
 }

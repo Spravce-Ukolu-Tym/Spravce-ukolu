@@ -15,12 +15,12 @@ public class RoleLeader extends PrivilegedRole implements iRoleLeader {
     @Override
     public TaskManagerLeader getTaskManagerLeader() throws RemoteException, nqException
     {
-        return null;
+	return new TaskManagerLeader(this.con, this.user);
     }
 
     @Override
     public UserManager getUserManager() throws RemoteException, nqException
     {
-        return null;
+        return new UserManager(this.con, this.user);
     }
 }
