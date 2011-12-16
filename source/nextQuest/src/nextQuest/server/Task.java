@@ -122,6 +122,13 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
     }
 
     @Override
+    public int getPercentage() throws RemoteException, nqException
+    {
+	PreparedStatement stat;
+	stat = this.con.prepareStatement("SELECT COUNT(*) FROM `Tasks` WHERE isSubTask = 1 AND `idParentTask` = ? AND ");
+    }
+    
+    @Override
     public Ability[] getNecessaryAbilities() throws RemoteException, nqException
     {
 	return null; //!--TODO--!MS!

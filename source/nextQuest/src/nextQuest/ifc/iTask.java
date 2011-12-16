@@ -27,6 +27,8 @@ public interface iTask extends Remote
 
     int getPriority() throws RemoteException, nqException;
 
+    int getPercentage() throws RemoteException, nqException;
+    
     Project getProjectInfo() throws RemoteException, nqException;
 
     eTaskStatus getStatus() throws RemoteException, nqException;
