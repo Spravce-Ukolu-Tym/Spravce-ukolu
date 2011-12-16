@@ -49,6 +49,7 @@ public class Project  implements Serializable, Comparable<Project> {
         return o.Priority-Priority;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

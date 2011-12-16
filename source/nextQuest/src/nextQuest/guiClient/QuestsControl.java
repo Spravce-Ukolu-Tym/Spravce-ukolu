@@ -1,5 +1,10 @@
 package nextQuest.guiClient;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import nextQuest.ifc.iTask;
+import nextQuest.ifc.nqException;
 import nextQuest.server.Task;
 
 public class QuestsControl {
@@ -16,18 +21,25 @@ public class QuestsControl {
      * odevzdání úkolu
      * @param task
      */
-    public void returnTask(Task t) {
-        t.returnTask();
+    public void returnTask(iTask t) throws RemoteException {
+        try {
+            t.returnTask();
+        } catch (nqException ex) {
+            Logger.getLogger(QuestsControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * odmítnutí úkolu
      * @param task
      */
-    public void reject(Task t, String reason) throws WrongInputException {
+    public void reject(iTask t, String reason) throws WrongInputException, RemoteException {
         if(reason == null) return;
         else if(reason.equals("")) throw new WrongInputException("Please input your reason");
-
-        t.reject(reason);
+        try {
+            t.reject(reason);
+        } catch (nqException ex) {
+            Logger.getLogger(QuestsControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

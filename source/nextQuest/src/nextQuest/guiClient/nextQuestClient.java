@@ -14,7 +14,7 @@ import nextQuest.ifc.*;
 
 public class nextQuestClient
 {
-    public static void main(String[] args) throws RemoteException
+    public static void main(String[] args)
     {
         ConnectingInformer inf = new ConnectingInformer();
         inf.setVisible(true);
@@ -56,6 +56,10 @@ public class nextQuestClient
             inf.setVisible(false);
             LoginDialog loginScreen = new LoginDialog(mg);
             loginScreen.setVisible(true);
+        } catch (RemoteException ex) {
+            inf.setVisible(false);
+            JOptionPane.showMessageDialog(null, "Connection refused..", "Error", JOptionPane.ERROR_MESSAGE, null);
+            Logger.getLogger(nextQuestClient.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
             inf.setVisible(false);
             JOptionPane.showMessageDialog(null, "Not bound..", "Error", JOptionPane.ERROR_MESSAGE, null);

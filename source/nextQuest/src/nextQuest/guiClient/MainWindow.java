@@ -17,6 +17,7 @@ import nextQuest.ifc.iPrivilegedRole;
 import nextQuest.ifc.iRoleAdmin;
 import nextQuest.ifc.iRoleLeader;
 import nextQuest.ifc.iRolePersonalist;
+import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
@@ -620,7 +621,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void b_return_taskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_return_taskActionPerformed
-        questsControl.returnTask(quests.getSelectedTask());
+        try {
+            questsControl.returnTask(quests.getSelectedTask());
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_b_return_taskActionPerformed
 
     private void b_reject_taskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_reject_taskActionPerformed
@@ -630,6 +635,8 @@ public class MainWindow extends javax.swing.JFrame {
                 reason = JOptionPane.showInputDialog(null, "Input your reason for rejecting this task:", "Task reject", JOptionPane.OK_CANCEL_OPTION | JOptionPane.INFORMATION_MESSAGE);
                 questsControl.reject(quests.getSelectedTask(), reason);
                 break;
+            } catch (RemoteException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             } catch (WrongInputException ex) {
                 JOptionPane.showMessageDialog(null, ex.getDescription() ,"No reason inputed", JOptionPane.WARNING_MESSAGE);
             }
@@ -711,14 +718,18 @@ public class MainWindow extends javax.swing.JFrame {
         l_projectName.setText((String) table_projects.getValueAt(table_projects.getSelectedRow(), 0));
 
         Project selectedProject = ((ProjectsTableModel) table_projects.getModel()).getElemetAt(table_projects.getSelectedRow());
-        Task [] tasks = new TaskManagerMock().getAssingnedTasks(); /*usr.getTaskManager().getAssingnedTasks()*/
-        ArrayList<Task> selectedTasks = new ArrayList<Task>();
-        for (Task task : tasks) {
-            if(task.getProject().equals(selectedProject)) {
-                selectedTasks.add(task);
+        iTask [] tasks = new TaskManagerMock().getAssingnedTasks(); /*usr.getTaskManager().getAssingnedTasks()*/
+        ArrayList<iTask> selectedTasks = new ArrayList<iTask>();
+        for (iTask task : tasks) {
+            try {
+                if (task.getProjectInfo().equals(selectedProject)) {
+                    selectedTasks.add((iTask) task);
+                }
+            } catch (nqException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        quests.updateModel(selectedTasks.toArray(new Task[0]));
+        quests.updateModel(selectedTasks.toArray(new iTask[0]));
     }
 
     private class ProjectsTableModel2 extends AbstractTableModel {

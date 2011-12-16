@@ -7,13 +7,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LoginControlTest {
+    private static LoginControl loginControl;
 
     public LoginControlTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        
+        loginControl = LoginControl.getInstance(NextQuestGUIClientTestSuite.mg);
     }
 
     @AfterClass
@@ -26,15 +27,9 @@ public class LoginControlTest {
     @Test
     public void testLogin() throws Exception {
         System.out.println("login");
-        long sid = 0L;
-        String login = "";
-        String password = "";
-        LoginControl instance = null;
-        iUser expResult = null;
-        iUser result = instance.login(sid, login, password);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        long sid = NextQuestGUIClientTestSuite.mg.createLoginSession();
+        iUser usr = loginControl.login(sid, "root", "heslo");
+        assertEquals(usr.getLoginName(), "root");
     }
 
 }

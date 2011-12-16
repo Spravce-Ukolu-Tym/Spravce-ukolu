@@ -20,7 +20,7 @@ public class ProjectsTableModel extends AbstractTableModel {
         public ProjectsTableModel(iTask [] tasks) throws RemoteException {
             try {
                 for (iTask task : tasks) {
-                    if(!projects.contains(task.getProject())) projects.add(task.getProject());   // získat z úkolů projekty, ve kterých jsou zařazeny
+                    if(!projects.contains(task.getProjectInfo())) projects.add(task.getProjectInfo());   // získat z úkolů projekty, ve kterých jsou zařazeny
                 }
                 Collections.sort((List) projects);
             } catch (nqException ex) {

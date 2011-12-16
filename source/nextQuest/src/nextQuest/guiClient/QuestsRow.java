@@ -7,24 +7,31 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import nextQuest.ifc.iTask;
+import nextQuest.ifc.nqException;
 import nextQuest.server.Task;
 
 public class QuestsRow extends javax.swing.JPanel {
-    private Task task;
+    private iTask task;
 
     /** Creates new form QuestsRow */
-    public QuestsRow(final Task task) {
-        initComponents();
-        this.task = task;
-        l_name.setText(task.getName());
-        l_decription.setText(task.getDescription());
-        this.progress.setValue(task.getPercentage());
-
-        if(!task.getIsSubtask()) {
-            jPanel1.setVisible(false);
+    public QuestsRow(final iTask task) throws RemoteException {
+        try {
+            initComponents();
+            this.task = task;
+            l_name.setText(task.getName());
+            l_decription.setText(task.getDescription());
+            this.progress.setValue(task.getPercentage());
+            if (!task.isSubtask()) {
+                jPanel1.setVisible(false);
+            }
+            registerMouseListener();
+        } catch (nqException ex) {
+            Logger.getLogger(QuestsRow.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        registerMouseListener();
     }
 
     /** This method is called from within the constructor to
@@ -123,7 +130,7 @@ public class QuestsRow extends javax.swing.JPanel {
     private javax.swing.JProgressBar progress;
     // End of variables declaration//GEN-END:variables
 
-    public Task getTask() {
+    public iTask getTask() {
         return task;
     }
 
