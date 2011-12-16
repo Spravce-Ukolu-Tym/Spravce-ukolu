@@ -1,20 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package nextQuest.guiClient;
 
+import java.rmi.RemoteException;
 import nextQuest.server.Task;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Tomas
- */
 public class QuestsControlTest {
 
     public QuestsControlTest() {
@@ -45,7 +37,7 @@ public class QuestsControlTest {
      * Test of returnTask method, of class QuestsControl.
      */
     @Test
-    public void testReturnTask() {
+    public void testReturnTask() throws RemoteException {
         System.out.println("returnTask");
         Task t = null;
         QuestsControl instance = null;

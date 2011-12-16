@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ import nextQuest.ifc.nqException;
 import nextQuest.server.Task;
 
 public class QuestsPanel extends JPanel {
-        private List<Task> model;
+        private List<iTask> model;
         private QuestsRow selectedRow;
         private QuestsRow highlightedRow;
 
@@ -28,8 +29,20 @@ public class QuestsPanel extends JPanel {
         }
 
         public void updateModel(iTask [] quests) throws RemoteException {
-            model = Arrays.asList((Task[]) quests);
-            Collections.sort(model);
+            model = Arrays.asList(quests);
+            Collections.sort(model, new Comparator<iTask>(){
+
+            @Override
+            public int compare(iTask o1, iTask o2) {
+                try {
+                    return o1.getCreationDate().compareTo(o2.getCreationDate());
+                } catch (RemoteException ex) {
+                    return -1;
+                } catch (nqException ex) {
+                    return -1;
+                }
+            }
+        });
 
             update();
         }
@@ -40,15 +53,15 @@ public class QuestsPanel extends JPanel {
 
             for (iTask task : model) {
                 try {
-                    if(task.getIsSubtask()) continue; // subtasky se zpracují spolu s hlavním taskem
-                    appendRowTask((Task) task);
+                    if(task.isSubtask()) continue; // subtasky se zpracují spolu s hlavním taskem
+                    appendRowTask(task);
 
                     //připojení podúkolů
                     iTask [] subtasks = task.getSubtasks();
                     if(subtasks == null) continue;
                     else {
                         for (iTask sub : subtasks) {
-                            appendRowTask((Task) sub);
+                            appendRowTask(sub);
                         }
                     }
                 } catch (nqException ex) {
@@ -58,7 +71,7 @@ public class QuestsPanel extends JPanel {
             updateUI();
         }
 
-        private void appendRowTask(Task task) {
+        private void appendRowTask(iTask task) throws RemoteException {
             QuestsRow row = new QuestsRow(task);
             add(row);
             row.updateSize();
@@ -73,7 +86,7 @@ public class QuestsPanel extends JPanel {
             selectedRow.setBackground(new Color(153, 153, 255));
         }
 
-        public Task getSelectedTask() {
+        public iTask getSelectedTask() {
             return selectedRow.getTask();
         }
 

@@ -24,6 +24,7 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
     private eTaskStatus Status;
     private String Name;
     Connection con;
+    private int percentage;
 
     public Task(Connection con, int idTask, int idProject, int idUserCreatedBy, Date DeadlineDate,
 		Date CreationDate, String Description, int MaxHours, boolean isSubtask,
@@ -175,5 +176,9 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 	{
 	    return -1; //co s tim?
 	}
+    }
+
+    public int getPercentage() {
+        return  percentage;
     }
 }
