@@ -57,6 +57,26 @@ public class TaskManager extends UnicastRemoteObject implements iTaskManager
 	throw new UnsupportedOperationException("NetusimKCemuTotoByloZamyslenoException()");
     }
 
+    
+    static iTask getTaskByID(int id, Connection con) throws SQLException, nqException, RemoteException
+    {
+	PreparedStatement stat;
+	try
+	{
+	    stat = con.prepareStatement("SELECT `idTask`, `idProject`, `idUserCreatedBy`, `idUserAssignedTo`, `idParentTask`, `TaskStatus`, `Title`,"
+		    + " `Description`, `Priority`, `CreationDate`, `DeadlineDate`, `MaxHours`, `isSubTask`, `Rating` "
+		    + "FROM Tasks WHERE idTask = ?");
+
+	    stat.setInt(1, id);
+
+	    return getTasks(stat, con)[0];
+	}
+	catch (SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
+    }
+    
     static iTask[] getTasks(PreparedStatement stat, Connection con) throws SQLException, RemoteException, nqException
     {
 	List<iTask> tl = new ArrayList<iTask>();

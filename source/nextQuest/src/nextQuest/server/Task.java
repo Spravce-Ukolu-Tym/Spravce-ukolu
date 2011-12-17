@@ -45,13 +45,28 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 
     }
 
-    private void setStatus(eTaskStatus status) throws nqException
+    void setStatus(eTaskStatus status) throws nqException
     {
 	PreparedStatement stat;
 	try
 	{
 	    stat = this.con.prepareStatement("UPDATE `Tasks` SET `TaskStatus` = ? WHERE `idTask` = ?");
 	    stat.setString(1, status.toString());
+	    stat.setInt(2, this.idTask);
+	}
+	catch(SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
+    }
+    
+    void assignTo(UserInfo usr) throws nqException
+    {
+	PreparedStatement stat;
+	try
+	{
+	    stat = this.con.prepareStatement("UPDATE `Tasks` SET `idUserAssignedTo` = ? WHERE `idTask` = ?");
+	    stat.setInt(1, usr.getID());
 	    stat.setInt(2, this.idTask);
 	}
 	catch(SQLException ex)
@@ -202,5 +217,11 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 	{
 	    return -1; //co s tim?
 	}
+    }
+
+    @Override
+    public iTask getthis() throws RemoteException, nqException
+    {
+	return this;
     }
 }

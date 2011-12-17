@@ -130,7 +130,5 @@ public class TaskMock implements iTask, Comparable<Task> {
         return Percentage;
     }
 
-
-
 }
 

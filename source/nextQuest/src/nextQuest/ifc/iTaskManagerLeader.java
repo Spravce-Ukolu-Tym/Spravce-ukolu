@@ -5,6 +5,8 @@
 package nextQuest.ifc;
 
 import java.rmi.*;
+import java.util.Date;
+import nextQuest.server.Ability;
 import nextQuest.server.Project;
 import nextQuest.server.UserInfo;
 
@@ -15,13 +17,13 @@ import nextQuest.server.UserInfo;
 public interface iTaskManagerLeader extends Remote
 {
 
-    void approveTask() throws RemoteException, nqException;
+    void approveTask(iTask t) throws RemoteException, nqException;
 
-    void assignTaskAutomatically() throws RemoteException, nqException;
+    void assignTaskAutomatically(iTask t) throws RemoteException, nqException;
 
-    void assignTasksManually() throws RemoteException, nqException;
+    void assignTasksManually(iTask t, UserInfo ui) throws RemoteException, nqException;
 
-    void createTask() throws RemoteException, nqException;
+    iTask createTask(Project proj, iTask parent, String title, String description, int priority, Date deadline, int maxhours, Ability[] abl) throws RemoteException, nqException;
 
     iTask[] getTasksByProject(Project pi) throws RemoteException, nqException;
 

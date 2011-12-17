@@ -10,7 +10,7 @@ import nextQuest.server.UserInfo;
 
 public interface iTask extends Remote
 {
-
+    
     void accept() throws RemoteException, nqException;
 
     Date getCreationDate() throws RemoteException, nqException;
