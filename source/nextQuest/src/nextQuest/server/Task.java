@@ -24,7 +24,6 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
     private eTaskStatus Status;
     private String Name;
     Connection con;
-    private int percentage;
 
     public Task(Connection con, int idTask, int idProject, int idUserCreatedBy, Date DeadlineDate,
 		Date CreationDate, String Description, int MaxHours, boolean isSubtask,
@@ -46,19 +45,37 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 
     }
 
+    private void setStatus(eTaskStatus status) throws nqException
+    {
+	PreparedStatement stat;
+	try
+	{
+	    stat = this.con.prepareStatement("UPDATE `Tasks` SET `TaskStatus` = ? WHERE `idTask` = ?");
+	    stat.setString(1, status.toString());
+	    stat.setInt(2, this.idTask);
+	}
+	catch(SQLException ex)
+	{
+	    throw new nqException(nqExceptionType.ServerError, "Server error : ".concat(ex.getMessage()));
+	}
+    }
+    
     @Override
     public void accept() throws RemoteException, nqException
     {
+	this.setStatus(eTaskStatus.IN_PROGRESS);
     }
 
     @Override
     public void reject(String Reason) throws RemoteException, nqException
     {
+	this.setStatus(eTaskStatus.REJECTED);
     }
 
     @Override
     public void returnTask() throws RemoteException, nqException
     {
+	this.setStatus(eTaskStatus.APPROVE_WAITING);
     }
 
     int getID() throws RemoteException, nqException
@@ -126,7 +143,9 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
     public int getPercentage() throws RemoteException, nqException
     {
 	PreparedStatement stat;
-	stat = this.con.prepareStatement("SELECT COUNT(*) FROM `Tasks` WHERE isSubTask = 1 AND `idParentTask` = ? AND ");
+	//stat = this.con.prepareStatement("SELECT COUNT(*) FROM `Tasks` WHERE isSubTask = 1 AND `idParentTask` = ? AND ");
+	
+	return 50;
     }
     
     @Override
@@ -183,9 +202,5 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 	{
 	    return -1; //co s tim?
 	}
-    }
-
-    public int getPercentage() {
-        return  percentage;
     }
 }
