@@ -50,34 +50,34 @@ public class MainWindow extends javax.swing.JFrame {
 
         // zobrazení karet dle oprávnění
         iPrivilegedRole[] roles;
-	try
-	{
-	    roles = usr.getRoles(); //ziskat seznam roli
-	}
-	catch (nqException e)
-	{
-	    System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
-	    return;
-	}
+        try
+        {
+            roles = usr.getRoles(); //ziskat seznam roli
+        }
+        catch (nqException e)
+        {
+            System.out.printf("Fail! Exception %s, message: %s\n", e.getType().toString(), e.getMessage());
+            return;
+        }
         boolean admin = false, leader = false, personalist = false;
-	for (iPrivilegedRole rl : roles) //test existujicich roli
-	{
-	    if (rl instanceof iRoleAdmin)
-	    {
-		admin = true;
-		radmin = (iRoleAdmin) rl;
-	    }
-	    else if (rl instanceof iRoleLeader)
-	    {
-		leader = true;
-		rlead = (iRoleLeader) rl;
-	    }
-	    else if (rl instanceof iRolePersonalist)
-	    {
-		personalist = true;
-		rper = (iRolePersonalist) rl;
-	    }
-	}
+        for (iPrivilegedRole rl : roles) //test existujicich roli
+        {
+            if (rl instanceof iRoleAdmin)
+            {
+                admin = true;
+                radmin = (iRoleAdmin) rl;
+            }
+            else if (rl instanceof iRoleLeader)
+            {
+                leader = true;
+                rlead = (iRoleLeader) rl;
+            }
+            else if (rl instanceof iRolePersonalist)
+            {
+                personalist = true;
+                rper = (iRolePersonalist) rl;
+            }
+        }
         if (!admin) {
             tabbed_pane.remove(pane_projects);
         }
@@ -99,7 +99,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (nqException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-	
+
         // inicializace karty Quests
         questsControl = QuestsControl.getInstance();
         ProjectsTableModel tableOfProjects = new ProjectsTableModel(new TaskManagerMock().getAssingnedTasks()/*usr.getTaskManager().getAssingnedTasks()*/);
@@ -135,7 +135,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         setVisible(true);
-       }
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.

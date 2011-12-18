@@ -28,9 +28,9 @@ public class AbilityControl {
      /**
      * odebere vybranou schopnost ze seznamu stávajících
      */
-    public void removeAbility(int index) throws RemoteException {
+    public void removeAbility(Ability ability) throws RemoteException {
         try {
-            uma.removeAbility(model.getAbility(index));
+            uma.removeAbility(ability);
             model.updateList(uma.listAblities());
         } catch (nqException ex) {
             Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);

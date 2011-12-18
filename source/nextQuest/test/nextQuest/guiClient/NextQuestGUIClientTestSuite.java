@@ -58,7 +58,7 @@ public class NextQuestGUIClientTestSuite {
 	mg = (iConnector) Naming.lookup(server);
         
         // vytvoření objektů nebzytných pro práci testovaných managerů
-        /*
+        
         long sid = NextQuestGUIClientTestSuite.mg.createLoginSession();
         iUser usr = LoginControl.getInstance(NextQuestGUIClientTestSuite.mg).login(sid, "root", "heslo");
         iRoleAdmin radmin = null;
@@ -80,12 +80,12 @@ public class NextQuestGUIClientTestSuite {
             NextQuestGUIClientTestSuite.uma = ((iRoleAdmin) pRole).getUserManagerAdmin();
         } else if(pRole instanceof iRolePersonalist) {
             NextQuestGUIClientTestSuite.uma = ((iRolePersonalist) pRole).getUserManagerAdmin();
-        }*/
+        }
         
-        uma = new UserManagerAdminMock();
+        //uma = new UserManagerAdminMock();
         
-        //tm = usr.getTaskManager();
-        tm = new TaskManagerMock();
+        tm = usr.getTaskManager();
+        //tm = new TaskManagerMock();
     }
 
     @AfterClass

@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class StaffControlTest {
     private static StaffControl staffControl;
@@ -71,7 +72,17 @@ public class StaffControlTest {
         possibleAbilities[1].setLevel(2);
         abilities[1] = possibleAbilities[1];
         staffControl.addPerson(login, name, password, leader, personalist, abilities);
-        // TODO: nějak zkontrolova že je opravdu v db
+        
+        // kontrola že je opravdu v db
+        boolean isAdded = false;
+        UserInfo[] allUsers = NextQuestGUIClientTestSuite.uma.listAllUsers();
+        for (UserInfo userInfo : allUsers) {
+            if(userInfo.getLoginName().equals(login)) {
+                isAdded = true;
+                break;
+            }
+        }
+        assertTrue(isAdded);
     }
 
      /**
@@ -98,7 +109,6 @@ public class StaffControlTest {
         possibleAbilities[3].setLevel(1);
         abilities[0] = possibleAbilities[3];
         staffControl.changePerson(user, login, name, password, leader, personalist, abilities);
-        // TODO: kontrola změny v db
     }
     
     /**
@@ -125,7 +135,19 @@ public class StaffControlTest {
         possibleAbilities[3].setLevel(1);
         abilities[0] = possibleAbilities[3];
         staffControl.changePerson(user, login, name, password, leader, personalist, abilities);
-        // TODO: kontrola změny v db
+        
+        // kontrola změny v db
+        boolean hasChanged = false;
+        allUsers = NextQuestGUIClientTestSuite.uma.listAllUsers(); // znovunačtení údajů ze serveru
+        for (UserInfo userInfo : allUsers) {
+            if(userInfo.getLoginName().equals(login)) {
+                hasChanged = true;
+            } else if(userInfo.getLoginName().equals("michato4")) {
+                hasChanged = false;
+                break;
+            }
+        }
+        assertTrue(hasChanged);
     }
     
     /**
@@ -137,12 +159,22 @@ public class StaffControlTest {
         iUser user = null;
         UserInfo[] allUsers = NextQuestGUIClientTestSuite.uma.listAllUsers();
         for (UserInfo u : allUsers) {
-            if(u.getLoginName().equals("michato4")) {
+            if(u.getLoginName().equals("michato5")) {
                 user = new User(u.getID(), u.getName(), u.getLoginName(), u.getPermissionAdmin(), u.getPermissionLeader(), u.getPermissionPersonalist(), null);
                 break;
             }
         }
         staffControl.removePerson(user);
-        // TODO: zkontrolovat zda byl odebrán z db
+        
+        // kontrola zda byl odebrán z db
+        boolean isDeleted = true;
+        allUsers = NextQuestGUIClientTestSuite.uma.listAllUsers(); // znovunačtení údajů ze severu
+        for (UserInfo u : allUsers) {
+            if(u.getLoginName().equals("michato5")) {
+                isDeleted = false;
+                break;
+            }
+        }
+        assertTrue(isDeleted);
     }
 }

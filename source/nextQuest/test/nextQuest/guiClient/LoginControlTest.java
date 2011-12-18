@@ -57,6 +57,5 @@ public class LoginControlTest {
         System.out.println("unsuccessful login");
         long sid = NextQuestGUIClientTestSuite.mg.createLoginSession();
         iUser usr = loginControl.login(sid, "root", "spatne_heslo");
-        assertEquals(usr.getLoginName(), "root");
     }
 }

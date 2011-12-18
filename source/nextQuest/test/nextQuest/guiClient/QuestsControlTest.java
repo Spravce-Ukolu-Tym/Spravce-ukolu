@@ -1,13 +1,11 @@
 package nextQuest.guiClient;
 
-import nextQuest.guiClient.WrongInputException;
 import nextQuest.ifc.iTask;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class QuestsControlTest {
     private static QuestsControl questsControl;
@@ -43,18 +41,6 @@ public class QuestsControlTest {
         // TODO: ověřit nějak, že byl úkol odevzdán
     }
 
-    /**
-     * Test mechanizmu odmítnutí úkolu - zadání korektních údajů
-     */
-    @Test
-    public void testRejectCorrect() throws Exception {
-        System.out.println("reject correct");
-        iTask t = NextQuestGUIClientTestSuite.tm.getAssingnedTasks()[0];
-        questsControl.reject(t, null);
-        questsControl.reject(t, "reason");
-        // TODO: ověřit nějak, že byl úkol odmítnut
-    }
-    
      /**
      * Test mechanizmu odmítnutí úkolu - zadání nekorektních údajů
      */
@@ -64,4 +50,18 @@ public class QuestsControlTest {
         iTask t = NextQuestGUIClientTestSuite.tm.getAssingnedTasks()[0];
         questsControl.reject(t, "");
     }
+    
+    /**
+     * Test mechanizmu odmítnutí úkolu - zadání korektních údajů
+     */
+    @Test
+    public void testRejectCorrect() throws Exception {
+        System.out.println("reject correct");
+        iTask t = NextQuestGUIClientTestSuite.tm.getAssingnedTasks()[0];
+        questsControl.reject(t, null);
+        questsControl.reject(t, "reason");
+        // ověření, že byl úkol odmítnut
+        //NextQuestGUIClientTestSuite.tm.getAssingnedTasks()[0].getStatus().equals(eTaskStatus.REJECTED);
+    }
+    
 }

@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class AbilityControlTest {
     private static AbilityControl abilityControl;
@@ -50,7 +51,17 @@ public class AbilityControlTest {
         String name = "ability name";
         String description = "some logn description";
         abilityControl.addAbility(name, description);
-        // TODO: nějak zkontrolovat vložení
+        
+        // kontrola vložení do db
+        boolean isAdded = false;
+        Ability[] allAbilities = NextQuestGUIClientTestSuite.uma.listAblities();
+        for (Ability ability : allAbilities) {
+            if(ability.equals(new Ability(name, description))) {
+                isAdded = true;
+                break;
+            }
+        }
+        assertTrue(isAdded);
     }
     
     /**
@@ -59,9 +70,26 @@ public class AbilityControlTest {
     @Test
     public void testRemoveAbility() throws Exception {
         System.out.println("removeAbility");
-        int index = 0;
-        abilityControl.removeAbility(index);
-        // TODO: nějak zkontrolovat její odstranění z db
+        Ability[] allAbilities = NextQuestGUIClientTestSuite.uma.listAblities();
+        Ability abl = null;
+        for (Ability ability : allAbilities) {
+            if(ability.getName().equals("ability name")) {
+                abl = ability;
+                break;
+            }
+        }
+        abilityControl.removeAbility(abl);
+
+        // kontrola odstranění z db
+        boolean isDeleted = true;
+        allAbilities = NextQuestGUIClientTestSuite.uma.listAblities();
+        for (Ability ability : allAbilities) {
+            if(ability.equals(abl)) {
+                isDeleted = false;
+                break;
+            }
+        }
+        assertTrue(isDeleted);
     }
 
 }
