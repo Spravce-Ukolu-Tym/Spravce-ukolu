@@ -130,5 +130,10 @@ public class TaskMock implements iTask, Comparable<Task> {
         return Percentage;
     }
 
+    @Override
+    public iTask getthis() throws RemoteException, nqException {
+        return this;
+    }
+
 }
 
