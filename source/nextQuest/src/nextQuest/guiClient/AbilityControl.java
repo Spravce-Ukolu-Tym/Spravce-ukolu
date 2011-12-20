@@ -28,9 +28,9 @@ public class AbilityControl {
      /**
      * odebere vybranou schopnost ze seznamu stávajících
      */
-    public void removeAbility(int index) throws RemoteException {
+    public void removeAbility(Ability ability) throws RemoteException {
         try {
-            uma.removeAbility(model.getAbility(index));
+            uma.removeAbility(ability);
             model.updateList(uma.listAblities());
         } catch (nqException ex) {
             Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,8 +41,8 @@ public class AbilityControl {
      * přidá novou schopnost ke stávajícím
      */
     public void addAbility(String name, String description) throws RemoteException, WrongInputException {
-        if(name.length() < 3 || name.length() > 20) {
-            throw new WrongInputException("Length of a name must be between 3 and 20 characters...");
+        if(name.length() < 2 || name.length() > 20) {
+            throw new WrongInputException("Length of a name must be between 2 and 20 characters...");
         } else if (description.length() < 3 || description.length() > 250) {
             throw new WrongInputException("Length of a description must be between 3 and 250 characters...");
         }

@@ -18,12 +18,12 @@ public class Project  implements Serializable, Comparable<Project> {
 	
     private String Name;
     
-    public Project(int idproject, String Name, UserInfo Creator, UserInfo Leader) throws RemoteException{
+    public Project(int idproject, String Name, UserInfo Creator, UserInfo Leader,int priority) throws RemoteException{
         this.idproject = idproject;
         this.Name = Name;
         this.Creator = Creator;
         this.Leader = Leader;
-        this.Priority = Priority;
+        this.Priority = priority;
     }
     public int getID() {
         return idproject;
@@ -38,6 +38,26 @@ public class Project  implements Serializable, Comparable<Project> {
 
     public UserInfo getLeader() {
         return Leader;
+    }
+
+    public void setCreator(UserInfo Creator) {
+        this.Creator = Creator;
+    }
+
+    public void setLeader(UserInfo Leader) {
+        this.Leader = Leader;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setPriority(int Priority) {
+        this.Priority = Priority;
+    }
+
+    public void setIdproject(int idproject) {
+        this.idproject = idproject;
     }
 
     public int getPriority() {
@@ -79,7 +99,7 @@ public class Project  implements Serializable, Comparable<Project> {
 	    UserInfo cb = UserManager.getUserByID(rs.getInt("idUserCreatedBy"), con);
 	    UserInfo ld = UserManager.getUserByID(rs.getInt("idLeader"), con);
 	    
-	    return new Project(rs.getInt("idProject"), rs.getString("Name"), cb, ld);
+	    return new Project(rs.getInt("idProject"), rs.getString("Name"), cb, ld,1);
 	}
 	throw new nqException(nqExceptionType.DBSoftError, "Project not found");
     }

@@ -41,9 +41,9 @@ public class DatabaseMock {
             userAbilitiesTable = new HashSet<UserAbilitiesMock>();
 
             projectsTable = new HashSet<Project>();
-            projectsTable.add(new Project(0, "Udrzba vlasti", null, null));
-            projectsTable.add(new Project(1, "Stop koureni", null, null));
-            projectsTable.add(new Project(2, "NextQuest", null, null));
+            projectsTable.add(new Project(0, "Udrzba vlasti", null, null,1));
+            projectsTable.add(new Project(1, "Stop koureni", null, null,15));
+            projectsTable.add(new Project(2, "NextQuest", null, null,10));
 
             taskTable = new HashSet<TaskMock>();
             taskTable.add(new TaskMock(new Date(2011, 12, 8), "Podel celeho domu.", 2, userTable.toArray(new User[0])[0], null, false, null, 20, abilityTable.toArray(new Ability[0]), projectsTable.toArray(new Project[0])[2], "Zamet chodnik"));

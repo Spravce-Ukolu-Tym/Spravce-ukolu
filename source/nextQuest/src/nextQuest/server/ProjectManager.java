@@ -23,7 +23,7 @@ public class ProjectManager extends UnicastRemoteObject implements iProjectManag
     }
 
     @Override
-    public void createProject(String Name, UserInfo Leader) throws nqException, RemoteException
+    public void createProject(String Name, UserInfo Leader,int Priority) throws nqException, RemoteException
     {
 	System.out.printf("Create project %s (Leader: %s)\n", Name, Leader.getName());
 
@@ -60,7 +60,7 @@ public class ProjectManager extends UnicastRemoteObject implements iProjectManag
 		UserInfo cb = UserManager.getUserByID(rs.getInt("idUserCreatedBy"), con);
 		UserInfo ld = UserManager.getUserByID(rs.getInt("idLeader"), con);
 
-		pr.add(new Project(rs.getInt("idProject"), rs.getString("Name"), cb, ld));
+		pr.add(new Project(rs.getInt("idProject"), rs.getString("Name"), cb, ld,1));
 	    }
 	    
 	    return pr.toArray(new Project[pr.size()]);

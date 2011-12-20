@@ -14,6 +14,6 @@ import nextQuest.server.UserInfo;
  */
 public interface iProjectManager extends Remote
 {
-    void createProject(String Name, UserInfo Leader) throws RemoteException, nqException;
+    void createProject(String Name, UserInfo Leader,int Priority) throws RemoteException, nqException;
     Project[] listProjects() throws RemoteException, nqException;
 }

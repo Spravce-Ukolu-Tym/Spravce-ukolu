@@ -174,7 +174,7 @@ public class AbilityEditor extends javax.swing.JDialog {
             return;
         }
         try {
-            abilityControl.removeAbility(list_abilities.getSelectedIndex());
+            abilityControl.removeAbility(listModel.getAbility(list_abilities.getSelectedIndex()));
             list_abilities.updateUI();
         } catch (RemoteException ex) {
             Logger.getLogger(AbilityEditor.class.getName()).log(Level.SEVERE, null, ex);

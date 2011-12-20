@@ -47,7 +47,7 @@ public class StaffControl {
     }
 
     /**
-     * přidání uživatele
+     * přidání uživatele - korektní vstupy
      */
     public void addPerson(String login, String name, String password, boolean leader, boolean personalist, Ability [] abilities) throws RemoteException, WrongInputException {
         try {

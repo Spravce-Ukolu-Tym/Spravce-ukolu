@@ -45,5 +45,9 @@ public interface iTask extends Remote
 
     String getName() throws RemoteException, nqException;
     
+<<<<<<< HEAD
     int getsysid() throws RemoteException, nqException;
+=======
+    iTask getthis() throws RemoteException, nqException;
+>>>>>>> ce1abc7551f076824a536d317be3d1498719e524
 }
