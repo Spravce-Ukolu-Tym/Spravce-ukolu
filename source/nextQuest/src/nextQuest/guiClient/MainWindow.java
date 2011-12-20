@@ -126,6 +126,7 @@ public class MainWindow extends javax.swing.JFrame {
         ProjectsTableModelAll tableOfProjects2 = new ProjectsTableModelAll(pm.listProjects());
         table_projects2.setModel(tableOfProjects2);
         table_projects2.updateUI();
+        
         // inicializace karty Staff
         StaffTableModel tableOfStaff;
         try {
