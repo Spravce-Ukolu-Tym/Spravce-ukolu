@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import nextQuest.guiClient.ProjectsForm;
 import nextQuest.ifc.iPrivilegedRole;
 import nextQuest.ifc.iRoleAdmin;
 import nextQuest.ifc.iRoleLeader;
@@ -21,6 +22,7 @@ import nextQuest.ifc.iTask;
 import nextQuest.ifc.iUser;
 import nextQuest.ifc.iUserManagerAdmin;
 import nextQuest.ifc.nqException;
+import nextQuest.mock.ProjectManagerMock;
 import nextQuest.mock.TaskManagerMock;
 import nextQuest.mock.UserManagerAdminMock;
 import nextQuest.server.Project;
@@ -34,20 +36,20 @@ public class MainWindow extends javax.swing.JFrame {
     private iRoleAdmin radmin = null;
     private iRoleLeader rlead = null;
     private iRolePersonalist rper = null;
-
+    private ProjectManagerMock pm;
     private iUserManagerAdmin uma = null;
     private StaffControl staffControl;
     private QuestsControl questsControl;
     QuestsPanel quests = new QuestsPanel();
 
     /** Creates new form NewJFrame */
-    public MainWindow(LoginDialog parentWindow, final iUser usr) throws RemoteException {
+    public MainWindow(LoginDialog parentWindow, final iUser usr) throws RemoteException, nqException {
         initComponents();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screen.width / 2 - getWidth() / 2, screen.height / 2 - getHeight() / 2);
 
         this.parentWindow = parentWindow;
-
+        
         // zobrazení karet dle oprávnění
         iPrivilegedRole[] roles;
         try
@@ -120,9 +122,10 @@ public class MainWindow extends javax.swing.JFrame {
         updateQuestList();
 
         // inicializace karty Projects
-        ProjectsTableModel2 tableOfProjects2 = new ProjectsTableModel2();
+        pm = new ProjectManagerMock(usr);
+        ProjectsTableModelAll tableOfProjects2 = new ProjectsTableModelAll(pm.listProjects());
         table_projects2.setModel(tableOfProjects2);
-
+        table_projects2.updateUI();
         // inicializace karty Staff
         StaffTableModel tableOfStaff;
         try {
@@ -302,8 +305,18 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jButton9.setText("Edit project");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setText("Show details...");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton14.setText("Print list");
 
@@ -616,8 +629,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_b_change_passwordActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-
+        try {
+            ProjectsForm newProjectForm = new ProjectsForm(this, pm, null,uma);
+            ((ProjectsTableModelAll) table_projects2.getModel()).makeRefresh(pm.listProjects());
+            table_projects2.updateUI();
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void b_return_taskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_return_taskActionPerformed
@@ -642,6 +663,28 @@ public class MainWindow extends javax.swing.JFrame {
             }
         } while(true);
     }//GEN-LAST:event_b_reject_taskActionPerformed
+
+private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    try {
+            ProjectsForm newProjectForm = new ProjectsForm(this, pm, ((ProjectsTableModelAll) table_projects2.getModel()).getElementAt(table_projects2.getSelectedRow()),uma);
+            ((ProjectsTableModelAll) table_projects2.getModel()).makeRefresh(pm.listProjects());
+            table_projects2.updateUI();
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_jButton9ActionPerformed
+
+private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        try {
+            ProjectsFormDetail newProjectFormDetail = new ProjectsFormDetail(this,((ProjectsTableModelAll) table_projects2.getModel()).getElementAt(table_projects2.getSelectedRow()));
+        } catch (RemoteException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (nqException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_jButton10ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_add_new_person;
@@ -730,48 +773,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
         quests.updateModel(selectedTasks.toArray(new iTask[0]));
-    }
-
-    private class ProjectsTableModel2 extends AbstractTableModel {
-        private String[] columnNames = {"Project", "Progress in %"};
-        private Object[][] data;
-
-        public ProjectsTableModel2() {
-            /*
-            try {
-                iTask[] tasks = usr.getTaskManager().getAssingnedTasks();
-                for (iTask task : tasks) {
-                    // získat z úkolů projekty, ve kterých jsou zařazeny
-                }
-            } catch (RemoteException ex) {
-                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (nqException ex) {
-                Logger.getLogger(ProjectsTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-            data = new Object[10][2];
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public int getRowCount() {
-            return data.length;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            return data[rowIndex].length;
-        }
-
     }
 
 }
