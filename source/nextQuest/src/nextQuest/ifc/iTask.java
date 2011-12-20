@@ -44,4 +44,6 @@ public interface iTask extends Remote
     void returnTask() throws RemoteException, nqException;
 
     String getName() throws RemoteException, nqException;
+    
+    int getsysid() throws RemoteException, nqException;
 }

@@ -130,5 +130,10 @@ public class TaskMock implements iTask, Comparable<Task> {
         return Percentage;
     }
 
+    
+    @Override 
+    public int getsysid() throws RemoteException, nqException{
+	return System.identityHashCode(this);
+    }
 }
 

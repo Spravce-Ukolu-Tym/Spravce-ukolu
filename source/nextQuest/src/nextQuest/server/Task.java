@@ -43,6 +43,8 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 	this.Title = Title;
 	this.Status = Status;
 
+	
+	taskPool.get().insert(this);
     }
 
     void setStatus(eTaskStatus status) throws nqException
@@ -218,10 +220,18 @@ public class Task extends UnicastRemoteObject implements iTask, Comparable<Task>
 	    return -1; //co s tim?
 	}
     }
-
+    
     @Override
-    public iTask getthis() throws RemoteException, nqException
+    public int getsysid()
     {
-	return this;
+	return System.identityHashCode(this);
     }
+    
+    @Override
+    public void finalize() throws Throwable
+    {
+	super.finalize();
+	taskPool.get().remove(this);
+    }
+
 }

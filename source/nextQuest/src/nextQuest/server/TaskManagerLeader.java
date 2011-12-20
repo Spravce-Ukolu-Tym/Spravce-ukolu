@@ -20,15 +20,11 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
     @Override
     public void approveTask(iTask t) throws RemoteException, nqException
     {
-	if (t instanceof Task)
-	{
-	    Task tt = (Task) t;
-	    tt.setStatus(eTaskStatus.COMPLETED);
-	}
-	else
-	{
-	    throw new nqException(nqExceptionType.GeneralError, "Bad parameter (not instanceof Task)");
-	}
+	Task tt = taskPool.get().getimpl(t);
+
+
+	tt.setStatus(eTaskStatus.COMPLETED);
+
     }
 
     @Override
@@ -40,12 +36,13 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
     @Override
     public void assignTasksManually(iTask t, UserInfo ui) throws RemoteException, nqException
     {
-	    Task tt = (Task) t.getthis();
-	    tt.setStatus(eTaskStatus.ASSIGNED);
-	    tt.assignTo(ui);
-	
-	    //throw new nqException(nqExceptionType.GeneralError, String.format("Bad parameter (not instanceof Task - %s)"));
-	
+	Task tt = taskPool.get().getimpl(t);
+
+	tt.setStatus(eTaskStatus.ASSIGNED);
+	tt.assignTo(ui);
+
+	//throw new nqException(nqExceptionType.GeneralError, String.format("Bad parameter (not instanceof Task - %s)"));
+
     }
 
     @Override
@@ -62,7 +59,10 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
 
 	    stat.setInt(1, proj.getID());
 	    stat.setInt(2, this.u.getID());
-	    stat.setInt(3, parent == null ? -1 : ((Task) parent).getID());
+	    stat.setInt(3, parent == null ? -1 : 
+		    ((parent instanceof Task) ? ((Task)parent).getID() : taskPool.get().getimpl(parent).getID())
+		    
+		    ) ;
 	    stat.setString(4, eTaskStatus.CREATED.toString());
 	    stat.setString(5, title);
 	    stat.setString(6, description);
@@ -78,7 +78,7 @@ public class TaskManagerLeader extends TaskManager implements iTaskManagerLeader
 	    }
 
 	    int id = -1;
-	    
+
 	    ResultSet rs = stat.getGeneratedKeys();
 	    while (rs.next())
 	    {
